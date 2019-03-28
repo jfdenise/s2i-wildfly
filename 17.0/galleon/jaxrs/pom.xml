@@ -20,10 +20,10 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.wildfly.galleon.s2i.config</groupId>
-    <artifactId>cloud-profile</artifactId>
+    <artifactId>jaxrs</artifactId>
     <packaging>pom</packaging>
     <version>17.0.0.Final</version>
-    <name>Provision a wildfly cloud-profile server</name>
+    <name>Provision a wildfly jaxrs server</name>
   
     <description>Feature-packs for WildFly image</description>
 
@@ -72,7 +72,7 @@
                 <artifactId>galleon-maven-plugin</artifactId>
                 <executions>
                     <execution>
-                        <id>wildfly-provisioning-cloud-profile</id>
+                        <id>wildfly-provisioning-jaxrs</id>
                         <goals>
                             <goal>provision</goal>
                         </goals>
@@ -87,6 +87,27 @@
                                 <optional-packages>passive+</optional-packages>
                             </plugin-options>
                             <feature-packs>
+                                <feature-pack>
+                                    <transitive>true</transitive>
+                                    <groupId>org.wildfly</groupId>
+                                    <artifactId>wildfly-galleon-pack</artifactId>
+                                    <version>${version.org.wildfly}</version>
+                                    <inherit-packages>false</inherit-packages>
+                                    <inherit-configs>false</inherit-configs>
+                                    <excluded-packages>
+                                        <exclude>org.jboss.resteasy.resteasy-atom-provider</exclude>
+                                        <exclude>org.jboss.resteasy.resteasy-crypto</exclude>
+                                        <exclude>org.jboss.resteasy.resteasy-jackson-provider</exclude>
+                                        <exclude>org.jboss.resteasy.resteasy-jaxb-provider</exclude>
+                                        <exclude>org.jboss.resteasy.resteasy-jettison-provider</exclude>
+                                        <exclude>org.jboss.resteasy.resteasy-jsapi</exclude>
+                                        <exclude>org.jboss.resteasy.resteasy-json-binding-provider</exclude>
+                                        <exclude>org.jboss.resteasy.resteasy-json-p-provider</exclude>
+                                        <exclude>org.jboss.resteasy.resteasy-multipart-provider</exclude>
+                                        <exclude>org.jboss.resteasy.resteasy-spring</exclude>
+                                        <exclude>org.jboss.resteasy.resteasy-yaml-provider</exclude>
+                                    </excluded-packages>
+                                </feature-pack>
                                 <feature-pack>
                                     <groupId>org.wildfly.galleon.s2i</groupId>
                                     <artifactId>wildfly-s2i-galleon-pack</artifactId>

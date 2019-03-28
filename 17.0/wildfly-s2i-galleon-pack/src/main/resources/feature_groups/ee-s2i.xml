@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feature-group-spec name="ee-s2i" xmlns="urn:jboss:galleon:feature-group:1.0">
+    <!-- WHY??? -->
+    <feature spec="subsystem.ee">
+        <param name="spec-descriptor-property-replacement" value="true"/>
+    </feature>
+</feature-group-spec>

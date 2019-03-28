@@ -72,7 +72,7 @@
                 <artifactId>galleon-maven-plugin</artifactId>
                 <executions>
                     <execution>
-                        <id>wildfly-provisioning-cloud-profile</id>
+                        <id>wildfly-provisioning-standalone-profile</id>
                         <goals>
                             <goal>provision</goal>
                         </goals>
@@ -87,17 +87,21 @@
                                 <optional-packages>passive+</optional-packages>
                             </plugin-options>
                             <feature-packs>
-                                <feature-pack>
-                                    <groupId>org.wildfly</groupId>
-                                    <artifactId>wildfly-galleon-pack</artifactId>
-                                    <version>${version.org.wildfly}</version>
-                                </feature-pack>
+                               
                                 <feature-pack>
                                     <groupId>org.wildfly.galleon.s2i</groupId>
                                     <artifactId>wildfly-s2i-galleon-pack</artifactId>
                                     <version>${project.version}</version>
+                                    <inherit-configs>false</inherit-configs>
+                                    <included-configs>
+                                        <configuration-id>
+                                            <name>standalone.xml</name>
+                                            <model>standalone</model>
+                                        </configuration-id>
+                                    </included-configs>
                                 </feature-pack>
                             </feature-packs>
+                            <!--<customConfig>config.xml</customConfig>-->
                         </configuration>
                     </execution>
                 </executions>

@@ -4,11 +4,11 @@
     <layers>
         <include name="mysql-datasource"/>
         <include name="postgresql-datasource"/>
+        <include name="deployment-scanner"/>
+        <!-- we should already have all required in default config -->
+        <exclude name="operator-required"/>
     </layers>
-    <!-- WHY??? -->
-    <feature spec="subsystem.ee">
-        <param name="spec-descriptor-property-replacement" value="true"/>
-    </feature>
+    <feature-group name="ee-s2i"/>
     <feature spec="subsystem.ee.service.default-bindings">
         <param name="datasource" value="java:jboss/datasources/${env.DEFAULT_DATASOURCE,\
                env.OPENSHIFT_DEFAULT_DATASOURCE,env.OPENSHIFT_MYSQL_DATASOURCE,\
@@ -27,12 +27,6 @@
         <param name="user-name" value="sa"/>
         <param name="password" value="sa"/>
         <param name="statistics-enabled" value="${wildfly.datasources.statistics-enabled:${wildfly.statistics-enabled:false}}" />
-    </feature>
-    <feature spec="subsystem.deployment-scanner">
-        <feature spec="subsystem.deployment-scanner.scanner">
-            <param name="scanner" value="default"/>
-            <param name="auto-deploy-exploded" value="${env.AUTO_DEPLOY_EXPLODED,env.OPENSHIFT_AUTO_DEPLOY_EXPLODED:false}"/>
-        </feature>
     </feature>
     <feature spec="socket-binding-group">
         <param name="socket-binding-group" value="standard-sockets" />
