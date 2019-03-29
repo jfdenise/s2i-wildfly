@@ -4,6 +4,13 @@
         <layer name="core-tools"/>
         <layer name="postgresql-driver"/>
     </dependencies>
+    
+    <feature spec="subsystem.ee.service.default-bindings">
+        <param name="datasource" value="java:jboss/datasources/${env.DEFAULT_DATASOURCE,\
+env.OPENSHIFT_DEFAULT_DATASOURCE,env.POSTGRESQL_DATASOURCE,env.OPENSHIFT_POSTGRESQL_DATASOURCE,\
+env.EXAMPLE_DATASOURCE,env.OPENSHIFT_EXAMPLE_DATASOURCE:}"/>
+    </feature>
+    
     <feature spec="subsystem.datasources.data-source">
         <param name="use-ccm" value="true"/>
         <!-- we can't use expression for pool-name (data-source name) hard coding should be fine, the import thing is JNDI -->
@@ -12,8 +19,8 @@
         <param name="use-java-context" value="true"/>
         <param name="jndi-name" value="java:jboss/datasources/${env.POSTGRESQL_DATASOURCE,env.OPENSHIFT_POSTGRESQL_DATASOURCE:PostgreSQLDS}"/>
         <param name="connection-url" value="jdbc:postgresql://${env.POSTGRESQL_SERVICE_HOST,\
-               env.OPENSHIFT_POSTGRESQL_DB_HOST}:${env.POSTGRESQL_SERVICE_PORT,\
-               env.OPENSHIFT_POSTGRESQL_DB_PORT}/${env.POSTGRESQL_DATABASE, env.OPENSHIFT_POSTGRESQL_DB_NAME}"/>
+env.OPENSHIFT_POSTGRESQL_DB_HOST}:${env.POSTGRESQL_SERVICE_PORT,\
+env.OPENSHIFT_POSTGRESQL_DB_PORT}/${env.POSTGRESQL_DATABASE, env.OPENSHIFT_POSTGRESQL_DB_NAME}"/>
         <param name="driver-name" value="postgresql"/>
         <param name="user-name" value="${env.POSTGRESQL_USER, env.OPENSHIFT_POSTGRESQL_DB_USERNAME}"/>
         <param name="password" value="${env.POSTGRESQL_PASSWORD, env.OPENSHIFT_POSTGRESQL_DB_PASSWORD}"/>

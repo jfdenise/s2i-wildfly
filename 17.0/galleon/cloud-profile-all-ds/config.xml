@@ -1,8 +1,7 @@
 <?xml version="1.0" ?>
 <config xmlns="urn:jboss:galleon:config:1.0" name="standalone.xml" model="standalone">
     <layers>
-        <!-- workaround for galleon bug to not include layers in model.xml-->
-        <include name="management"/>
-        <include name="jaxrs"/>
+        <include name="cloud-profile"/>
+        <include name="all-datasources"/>
     </layers>
 </config>
