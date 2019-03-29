@@ -1,0 +1,16 @@
+---
+kind: ImageStream
+apiVersion: v1
+metadata:
+  name: wildfly-cloud-profile-all-ds
+spec:
+  tags:
+  - name: latest
+    annotations:
+      description: cloud-profile-all-ds image
+      iconClass: icon-jboss
+      tags: java,widlfly,galleon
+      version: 'latest'
+    from:
+      kind: DockerImage
+      name: "quay.io/jfdenise/wildfly-cloud-profile-all-ds:latest"

@@ -28,7 +28,7 @@ RUN INSTALL_PKGS="tar unzip bc which lsof java-11-openjdk java-11-openjdk-devel"
     tar -zx -C /usr/local) && \
     ln -sf /usr/local/apache-maven-$MAVEN_VERSION/bin/mvn /usr/local/bin/mvn && \
     mkdir -p $HOME/.m2 && \
-    mkdir -p /wildfly/deployments && mkdir -p /wildfly/standalone/configuration && mkdir -p /wildfly/provided_modules && \
+    mkdir -p /wildfly/deployments && mkdir -p /wildfly/standalone/configuration && \
     mkdir -p /opt/s2i/destination
 ADD ./m2-repository $HOME/.m2/repository
 
