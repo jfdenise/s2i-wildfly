@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Template
 metadata:
-  name: wildfly-galleon-s2i
+  name: wildfly-galleon-s2i-app-server-builder
   annotations:
     iconClass: icon-wildfly
     openshift.io/display-name: Galleon S2I App & WildFly builder
@@ -10,7 +10,7 @@ metadata:
     description: Provision WildFly server image using galleon and build/deploy app.
   message: Builds created.
 labels:
-  template: wildfly-galleon-s2i
+  template: wildfly-galleon-s2i-app-server-builder
 parameters:
 - name: GALLEON_GIT_REPO
   description: The Galleon server description git repository
