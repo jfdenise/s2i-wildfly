@@ -5,6 +5,37 @@
             <param name="resource-adapter" value="amqp"/>
             <param name="archive" value="resource-adapter-1.0.0.rar"/>
             <param name="transaction-support" value="NoTransaction"/>
+            <feature spec="subsystem.resource-adapters.resource-adapter.connection-definitions">
+                <param name="connection-definitions" value="amqp"/>
+                <param name="class-name" value="org.jboss.resource.adapter.jms.JmsManagedConnectionFactory"/>
+                <param name="jndi-name" value="java:global/jms/default"/>
+                <feature spec="subsystem.resource-adapters.resource-adapter.connection-definitions.config-properties">
+                    <param name="config-properties" value="ConnectionFactory"/>
+                    <param name="value" value="factory1"/>
+                </feature>
+                <feature spec="subsystem.resource-adapters.resource-adapter.connection-definitions.config-properties">
+                    <param name="config-properties" value="UserName"/>
+                    <param name="value" value="work-queue"/>
+                </feature>
+                <feature spec="subsystem.resource-adapters.resource-adapter.connection-definitions.config-properties">
+                    <param name="config-properties" value="Password"/>
+                    <param name="value" value="work-queue"/>
+                </feature>
+                <feature spec="subsystem.resource-adapters.resource-adapter.connection-definitions.config-properties">
+                    <param name="config-properties" value="JndiParameters"/>
+                    <param name="value" value="&quot;java.naming.factory.initial=org.apache.qpid.jms.jndi.JmsInitialContextFactory;connectionFactory.factory1=amqp://${env.MESSAGING_SERVICE_HOST:localhost}:${env.MESSAGING_SERVICE_PORT:5672}&quot;"/>
+                </feature>
+            </feature>
         </feature>
     </feature>
+    <feature spec="subsystem.ejb3">
+        <param name="default-resource-adapter-name" value="amqp"/>
+    </feature>
+    <feature spec="subsystem.ee.service.default-bindings">
+        <param name="jms-connection-factory" value="java:global/jms/default"/>
+    </feature>
+    <feature spec="subsystem.ee">
+        <param name="annotation-property-replacement" value="true"/>
+    </feature>
+    
 </feature-group-spec>
