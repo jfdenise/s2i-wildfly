@@ -14,9 +14,7 @@ LABEL io.k8s.description="Platform for building and running JEE applications on 
       io.k8s.display-name="WildFly 16.0.0.Final" \
       io.openshift.expose-services="8080:http" \
       io.openshift.tags="builder,wildfly,wildfly16" \
-      io.openshift.s2i.assemble-input-files="/wildfly/standalone/deployments;/wildfly/standalone/configuration;/wildfly/provided_modules" \
       io.openshift.s2i.destination="/opt/s2i/destination" \
-      com.redhat.deployments-dir="/wildfly/standalone/deployments" \
       maintainer="Adam Kaplan <adam.kaplan@redhat.com>"
 
 # Install Maven
