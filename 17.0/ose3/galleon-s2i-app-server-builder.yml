@@ -41,12 +41,12 @@ parameters:
   description: The application git repository
   displayName: git repository
   required: true
-  value: https://github.com/jorgemoralespou/s2i-wildfly-galleon
+  value: https://github.com/jfdenise/s2i-wildfly
 - name: GIT_CONTEXT_DIR
   description: The application git repository sub directory
   displayName: git repository sub directory
   required: false
-  value: test/test-app-jaxrs
+  value: 17.0/test/test-app-postgres
 - name: GIT_BRANCH
   description: The application git branch
   displayName: git branch
