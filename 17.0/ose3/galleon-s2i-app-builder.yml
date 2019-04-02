@@ -12,16 +12,6 @@ metadata:
 labels:
   template: wildfly-galleon-s2i-app-builder
 parameters:
-- name: SERVER_IMAGE_STREAM
-  description: The WildFly server image stream built with Galleon
-  displayName: WildFly server image stream
-  required: true
-  value: jaxrs-server:latest
-- name: IMAGE_VERSION
-  description: WildFly version to use (latest, full, 16.0.0.Final)
-  displayName: WildFly version
-  required: true
-  value: latest
 - name: APP_NAME
   description: The application name. Name is assigned to all of the application objects defined in this template
   displayName: Image Name
@@ -42,6 +32,11 @@ parameters:
   displayName: git branch
   required: true
   value: master
+- name: SERVER_IMAGE_STREAM
+  description: The WildFly server image stream built with Galleon
+  displayName: WildFly server image stream
+  required: true
+  value: wildfly-default:latest
 objects:
 - apiVersion: image.openshift.io/v1
   kind: ImageStream
@@ -77,7 +72,7 @@ objects:
       sourceStrategy:
         from:
           kind: ImageStreamTag
-          name: galleon-wildfly-builder:${IMAGE_VERSION}
+          name: galleon-wildfly-builder:latest
       type: Source
     triggers:
     - imageChange:

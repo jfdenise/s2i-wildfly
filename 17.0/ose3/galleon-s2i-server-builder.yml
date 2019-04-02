@@ -117,6 +117,9 @@ objects:
             destinationDir: "."
     strategy:
       dockerStrategy:
+        from:
+          kind: "ImageStreamTag"
+          name: "wildfly-runtime-dependencies-image:${IMAGE_VERSION}"
       type: Docker
     triggers:
     - type: ImageChange
