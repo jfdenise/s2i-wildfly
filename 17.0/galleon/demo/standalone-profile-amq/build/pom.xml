@@ -18,15 +18,16 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-
-    <groupId>org.wildfly.galleon.s2i.config</groupId>
-    <artifactId>standalone-profile</artifactId>
+    <parent>
+        <groupId>org.wildfly.galleon.demo</groupId>
+        <artifactId>standalone-profile-amq</artifactId>
+        <version>1.0.0.Final</version>
+    </parent>
+    <artifactId>provision-wildfly</artifactId>
     <packaging>pom</packaging>
-    <version>17.0.0.Final</version>
-    <name>Provision a wildfly standalone server</name>
+    <name>Provision WildFly</name>
   
-    <description>Galleon description</description>
-
+    <description>Provision WildFly</description>
     <licenses>
         <license>
             <name>Apache License, Version 2.0</name>
@@ -34,62 +35,36 @@
             <distribution>repo</distribution>
         </license>
     </licenses>
-    
-    <properties>
-        <version.org.wildfly>17.0.0.Beta1-SNAPSHOT</version.org.wildfly>
-        <version.org.jboss.galleon>4.0.0.Alpha1-SNAPSHOT</version.org.jboss.galleon>
-    </properties>
-
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>org.wildfly</groupId>
-                <artifactId>wildfly-galleon-pack</artifactId>
-                <version>${version.org.wildfly}</version>
-                <type>zip</type>
-            </dependency>
-            <dependency>
-                <groupId>org.wildfly.galleon.s2i</groupId>
-                <artifactId>wildfly-s2i-galleon-pack</artifactId>
-                <version>${project.version}</version>
-                <type>zip</type>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
-    <build>
-        <pluginManagement>
-            <plugins>
-                <plugin>
-                    <groupId>org.jboss.galleon</groupId>
-                    <artifactId>galleon-maven-plugin</artifactId>
-                    <version>${version.org.jboss.galleon}</version>
-                </plugin>
-            </plugins>
-        </pluginManagement>
+    <dependencies>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>amq-galleon-pack</artifactId>
+            <type>zip</type>
+        </dependency>
+    </dependencies>
+    <build>                
         <plugins>
             <plugin>
                 <groupId>org.jboss.galleon</groupId>
                 <artifactId>galleon-maven-plugin</artifactId>
                 <executions>
                     <execution>
-                        <id>wildfly-provisioning-standalone-profile</id>
+                        <id>wildfly-provisioning</id>
                         <goals>
                             <goal>provision</goal>
                         </goals>
                         <phase>compile</phase>
                         <configuration>
-                            <install-dir>${project.build.directory}/wildfly</install-dir>
+                            <install-dir>${project.parent.build.directory}/wildfly</install-dir>
                             <record-state>true</record-state>
-                            <offline>true</offline>
                             <plugin-options>
-                                <!-- required when running on JDK 11 -->
                                 <jboss-fork-embedded>true</jboss-fork-embedded>
                             </plugin-options>
                             <feature-packs>
                                 <feature-pack>
                                     <groupId>org.wildfly.galleon.s2i</groupId>
                                     <artifactId>wildfly-s2i-galleon-pack</artifactId>
-                                    <version>${project.version}</version>
+                                    <version>${version.org.wildfly}</version>
                                     <inherit-configs>false</inherit-configs>
                                     <included-configs>
                                         <configuration-id>
@@ -97,6 +72,13 @@
                                             <model>standalone</model>
                                         </configuration-id>
                                     </included-configs>
+                                </feature-pack>
+                                <feature-pack>
+                                    <groupId>org.wildfly.galleon.demo</groupId>
+                                    <artifactId>amq-galleon-pack</artifactId>
+                                    <version>1.0.0.Final</version>
+                                    <inherit-packages>true</inherit-packages>
+                                    <inherit-configs>true</inherit-configs>
                                 </feature-pack>
                             </feature-packs>
                         </configuration>

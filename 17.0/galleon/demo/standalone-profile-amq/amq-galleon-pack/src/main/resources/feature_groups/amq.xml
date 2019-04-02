@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feature-group-spec name="amq" xmlns="urn:jboss:galleon:feature-group:1.0">
+    <feature spec="subsystem.resource-adapters">
+        <feature spec="subsystem.resource-adapters.resource-adapter">
+            <param name="resource-adapter" value="amqp"/>
+            <param name="archive" value="resource-adapter-1.0.0.rar"/>
+            <param name="transaction-support" value="NoTransaction"/>
+        </feature>
+    </feature>
+</feature-group-spec>
