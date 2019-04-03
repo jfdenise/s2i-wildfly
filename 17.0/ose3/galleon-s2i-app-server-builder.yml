@@ -183,6 +183,7 @@ objects:
             destinationDir: "."
     strategy:
       dockerStrategy:
+        imageOptimizationPolicy: SkipLayers
         from:
           kind: ImageStreamTag
           name: wildfly-runtime-dependencies-image:${IMAGE_VERSION}
