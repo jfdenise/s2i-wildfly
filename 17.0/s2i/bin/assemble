@@ -136,6 +136,7 @@ function move_artifacts() {
       echo "Moving all $t artifacts from $LOCAL_SOURCE_DIR/$d directory into $DEPLOY_DIR for later deployment..."
       chgrp -fR 0 $LOCAL_SOURCE_DIR/$d/*.$t
       chmod -fR g+rw $LOCAL_SOURCE_DIR/$d/*.$t
+      cp -v $LOCAL_SOURCE_DIR/$d/*.$t $DEPLOY_DIR_EXTERNAL 2> /dev/null
       mv -v $LOCAL_SOURCE_DIR/$d/*.$t $DEPLOY_DIR 2> /dev/null
     done
   done
@@ -152,9 +153,18 @@ mkdir -p $LOCAL_SOURCE_DIR
 # artifacts (*.war, *.jar)
 ARTIFACT_DIR=${ARTIFACT_DIR:-target}
 
+S2I_OUTPUT_DIR=/s2i-output
+
 # Resulting WAR files will be deployed to /wildfly/standalone/deployments
 DEPLOY_DIR=/wildfly/standalone/deployments
+# To be able to chain builds, isolate artifacts in alternative location.
+DEPLOY_DIR_EXTERNAL=$S2I_OUTPUT_DIR/deployments
+CONFIG_DIR_EXTERNAL=$S2I_OUTPUT_DIR/standalone/configuration
+MODULE_DIR_EXTERNAL=$S2I_OUTPUT_DIR/provided_modules
 mkdir -p $DEPLOY_DIR
+mkdir -p $DEPLOY_DIR_EXTERNAL
+mkdir -p $CONFIG_DIR_EXTERNAL
+mkdir -p $MODULE_DIR_EXTERNAL
 
 # Copy the source for compilation
 cp -Rf /opt/s2i/destination/src/. $LOCAL_SOURCE_DIR
@@ -251,7 +261,7 @@ if [ -f "$LOCAL_SOURCE_DIR/pom.xml" ]; then
     exit $ERR
   fi
   if [ ! -z "${GALLEON_BUILD}" ]; then
-    echo "Moving provisioned server to output directory"
+    echo "Moving provisioned server to $S2I_OUTOUT_DIR directory"
   else
     echo "Moving built war files into $DEPLOY_DIR for later deployment..."
   fi
@@ -263,7 +273,7 @@ fi
 
 if [ ! -z "${GALLEON_BUILD}" ]; then
    if [ -d $LOCAL_SOURCE_DIR/$ARTIFACT_DIR/wildfly ]; then
-      cp -r $LOCAL_SOURCE_DIR/$ARTIFACT_DIR/wildfly /output/wildfly
+      cp -r $LOCAL_SOURCE_DIR/$ARTIFACT_DIR/wildfly $S2I_OUTPUT_DIR/wildfly
    else
       echo "Error, no wildfly server provisioned in $LOCAL_SOURCE_DIR/$ARTIFACT_DIR/wildfly"
       exit 1
@@ -284,6 +294,10 @@ else
       cp cfg/* /wildfly/standalone/configuration
       chgrp -R 0 /wildfly/standalone/configuration
       chmod -R g+rw /wildfly/standalone/configuration
+      
+      cp cfg/* $CONFIG_DIR_EXTERNAL
+      chgrp -R 0 $CONFIG_DIR_EXTERNAL
+      chmod -R g+rw $CONFIG_DIR_EXTERNAL
     fi
 
     # this dir needs to always exist because the extended build
@@ -294,6 +308,10 @@ else
       cp -r modules/* /wildfly/provided_modules
       chgrp -R 0 /wildfly/provided_modules
       chmod -R g+rw /wildfly/provided_modules
+
+      cp -r modules/* $MODULE_DIR_EXTERNAL
+      chgrp -R 0 $MODULE_DIR_EXTERNAL
+      chmod -R g+rw $MODULE_DIR_EXTERNAL
     fi
 fi
 echo "...done"

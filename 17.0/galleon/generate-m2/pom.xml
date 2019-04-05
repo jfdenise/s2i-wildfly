@@ -20,10 +20,10 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.wildfly.galleon.s2i.config</groupId>
-    <artifactId>standalone-profile</artifactId>
+    <artifactId>generate-m2</artifactId>
     <packaging>pom</packaging>
     <version>17.0.0.Final</version>
-    <name>Provision a wildfly standalone server</name>
+    <name>Provision a wildfly full server</name>
   
     <description>Galleon description</description>
 
@@ -36,9 +36,18 @@
     </licenses>
     
     <properties>
-        <version.org.jboss.galleon>4.0.0.Alpha1-SNAPSHOT</version.org.jboss.galleon>
+        <version.org.wildfly>17.0.0.Beta1-SNAPSHOT</version.org.wildfly>
+        <version.org.wildfly.galleon-plugins>4.0.0.Alpha1-SNAPSHOT</version.org.wildfly.galleon-plugins>
     </properties>
 
+    <dependencies>
+        <dependency>
+            <groupId>org.wildfly</groupId>
+            <artifactId>wildfly-galleon-pack</artifactId>
+            <version>${version.org.wildfly}</version>
+            <type>zip</type>
+        </dependency>
+    </dependencies>
     <build>
         <pluginManagement>
             <plugins>
@@ -51,37 +60,21 @@
         </pluginManagement>
         <plugins>
             <plugin>
-                <groupId>org.jboss.galleon</groupId>
-                <artifactId>galleon-maven-plugin</artifactId>
+                <groupId>org.wildfly.galleon-plugins</groupId>
+                <artifactId>wildfly-galleon-maven-plugin</artifactId>
+                <version>${version.org.wildfly.galleon-plugins}</version>
                 <executions>
                     <execution>
-                        <id>wildfly-provisioning-standalone-profile</id>
+                        <id>wildfly-generate-m2</id>
                         <goals>
-                            <goal>provision</goal>
+                            <goal>generate-maven-repository</goal>
                         </goals>
                         <phase>compile</phase>
                         <configuration>
-                            <install-dir>${project.build.directory}/wildfly</install-dir>
-                            <record-state>true</record-state>
-                            <offline>true</offline>
-                            <plugin-options>
-                                <!-- required when running on JDK 11 -->
-                                <jboss-fork-embedded>true</jboss-fork-embedded>
-                            </plugin-options>
-                            <feature-packs>
-                                <feature-pack>
-                                    <groupId>org.wildfly.galleon.s2i</groupId>
-                                    <artifactId>wildfly-s2i-galleon-pack</artifactId>
-                                    <version>${project.version}</version>
-                                    <inherit-configs>false</inherit-configs>
-                                    <included-configs>
-                                        <configuration-id>
-                                            <name>standalone.xml</name>
-                                            <model>standalone</model>
-                                        </configuration-id>
-                                    </included-configs>
-                                </feature-pack>
-                            </feature-packs>
+                            <provisioning-repo-zip-file>galleon-m2-repository.zip</provisioning-repo-zip-file>
+                            <fpGroupId>org.wildfly.galleon.s2i</fpGroupId>
+                            <fpArtifactId>wildfly-s2i-galleon-pack</fpArtifactId>
+                            <fpVersion>17.0.0.Final</fpVersion>
                         </configuration>
                     </execution>
                 </executions>

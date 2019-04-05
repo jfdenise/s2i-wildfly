@@ -19,11 +19,11 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>org.wildfly.galleon.s2i.config</groupId>
-    <artifactId>standalone-profile</artifactId>
+    <groupId>org.wildfly.galleon.s2i</groupId>
+    <artifactId>wildfy-server</artifactId>
     <packaging>pom</packaging>
     <version>17.0.0.Final</version>
-    <name>Provision a wildfly standalone server</name>
+    <name>Provision a wildfly full server</name>
   
     <description>Galleon description</description>
 
@@ -55,7 +55,7 @@
                 <artifactId>galleon-maven-plugin</artifactId>
                 <executions>
                     <execution>
-                        <id>wildfly-provisioning-standalone-profile</id>
+                        <id>wildfly-provisioning-full-profile</id>
                         <goals>
                             <goal>provision</goal>
                         </goals>
@@ -67,19 +67,13 @@
                             <plugin-options>
                                 <!-- required when running on JDK 11 -->
                                 <jboss-fork-embedded>true</jboss-fork-embedded>
+                                <jboss-maven-dist/>
                             </plugin-options>
                             <feature-packs>
                                 <feature-pack>
                                     <groupId>org.wildfly.galleon.s2i</groupId>
                                     <artifactId>wildfly-s2i-galleon-pack</artifactId>
                                     <version>${project.version}</version>
-                                    <inherit-configs>false</inherit-configs>
-                                    <included-configs>
-                                        <configuration-id>
-                                            <name>standalone.xml</name>
-                                            <model>standalone</model>
-                                        </configuration-id>
-                                    </included-configs>
                                 </feature-pack>
                             </feature-packs>
                         </configuration>

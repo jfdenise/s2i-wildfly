@@ -21,4 +21,10 @@ Wildfly configuration can be overridden by supplying files in <src>/cfg, these f
 will be copied into Wildfly standalone/configuration.
 The default Maven build arguments can be overridden by setting MAVEN_ARGS via the "--env" argument to S2I
 The default Maven build arguments can be appended by setting MAVEN_ARGS_APPEND.
+
+Galleon provisioning of WildFly server:
+
+Sample invocation:
+
+s2i build <my maven Galleon provisioning project URL> openshift/wildfly-160-centos mywildflyservertest -e GALLEON_BUILD=true
 EOF

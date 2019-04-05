@@ -26,7 +26,6 @@ RUN INSTALL_PKGS="tar unzip bc which lsof java-11-openjdk java-11-openjdk-devel"
     tar -zx -C /usr/local) && \
     ln -sf /usr/local/apache-maven-$MAVEN_VERSION/bin/mvn /usr/local/bin/mvn && \
     mkdir -p $HOME/.m2 && \
-    mkdir -p /wildfly/deployments && mkdir -p /wildfly/standalone/configuration && \
     mkdir -p /opt/s2i/destination
 ADD ./m2-repository $HOME/.m2/repository
 
@@ -38,10 +37,17 @@ ADD ./contrib/settings.xml $HOME/.m2/
 
 # Install wildfly-s2i galleon-pack.
 COPY ./wildfly-s2i-galleon-pack  /tmp/wildfly-s2i-galleon-pack
-RUN mvn -f /tmp/wildfly-s2i-galleon-pack install -Dmaven.repo.local=$HOME/.m2/repository  
+RUN mvn -f /tmp/wildfly-s2i-galleon-pack install -Dmaven.repo.local=$HOME/.m2/repository
 
-RUN mkdir /output && chown -R 1001:0 /output && chmod -R ug+rwX /output && \
+#Provision default wildfly thin server
+COPY ./wildfly-s2i-server-provisioning  /tmp/wildfly-s2i-server-provisioning
+RUN mvn -f /tmp/wildfly-s2i-server-provisioning package -Dmaven.repo.local=$HOME/.m2/repository
+RUN cp -r /tmp/wildfly-s2i-server-provisioning/target/wildfly /wildfly && \
+    mkdir -p /opt/jboss && ln -s /wildfly /opt/jboss/wildfly
+
+RUN mkdir /s2i-output && chown -R 1001:0 /s2i-output && chmod -R ug+rwX /s2i-output && \
     rm -rf /tmp/wildfly-s2i-galleon-pack && \
+    rm -rf /tmp/wildfly-s2i-server-provisioning && \
     chown -R 1001:0 /wildfly && chown -R 1001:0 $HOME && \
     chmod -R ug+rwX $HOME/.m2/repository && \
     chmod -R ug+rwX /wildfly && \

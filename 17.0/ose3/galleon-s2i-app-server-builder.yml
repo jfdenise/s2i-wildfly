@@ -169,17 +169,17 @@ objects:
             kind: ImageStreamTag
             name: ${APP_NAME}-server-artifacts:latest
           paths: 
-          - sourcePath: /output/wildfly
+          - sourcePath: /s2i-output/wildfly
             destinationDir: "."
         - from: 
             kind: ImageStreamTag
             name: ${APP_NAME}-artifacts:latest
           paths: 
-          - sourcePath: /wildfly/standalone/deployments/
+          - sourcePath: /s2i-output/deployments/
             destinationDir: "."
-          - sourcePath: /wildfly/standalone/configuration/
+          - sourcePath: /s2i-output/standalone/configuration/
             destinationDir: "."
-          - sourcePath: /wildfly/provided_modules
+          - sourcePath: /s2i-output/provided_modules
             destinationDir: "."
     strategy:
       dockerStrategy:

@@ -36,26 +36,9 @@
     </licenses>
     
     <properties>
-        <version.org.wildfly>17.0.0.Beta1-SNAPSHOT</version.org.wildfly>
         <version.org.jboss.galleon>4.0.0.Alpha1-SNAPSHOT</version.org.jboss.galleon>
     </properties>
 
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>org.wildfly</groupId>
-                <artifactId>wildfly-galleon-pack</artifactId>
-                <version>${version.org.wildfly}</version>
-                <type>zip</type>
-            </dependency>
-            <dependency>
-                <groupId>org.wildfly.galleon.s2i</groupId>
-                <artifactId>wildfly-s2i-galleon-pack</artifactId>
-                <version>${project.version}</version>
-                <type>zip</type>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
     <build>
         <pluginManagement>
             <plugins>
