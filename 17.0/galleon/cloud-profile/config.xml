@@ -5,7 +5,5 @@
         <!-- added because we are used to -->
         <include name="h2-database"/>
     </layers>
-    <!-- even redefining h2-database layer in s2i FP we still got the ExampleDS -->
-    <exclude feature-id="subsystem.datasources.data-source:data-source=ExampleDS"/>
 
 </config>
