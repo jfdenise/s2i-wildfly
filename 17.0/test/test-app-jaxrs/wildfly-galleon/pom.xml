@@ -37,6 +37,7 @@
     
     <properties>
         <version.org.wildfly>17.0.0.Beta1-SNAPSHOT</version.org.wildfly>
+        <version.org.wildfly.galleon.s2i>17.0.0.Final</version.org.wildfly.galleon.s2i>
         <version.org.jboss.galleon>4.0.0.Alpha1-SNAPSHOT</version.org.jboss.galleon>
     </properties>
     
@@ -95,7 +96,7 @@
                                 <feature-pack>
                                     <groupId>org.wildfly.galleon.s2i</groupId>
                                     <artifactId>wildfly-s2i-galleon-pack</artifactId>
-                                    <version>${project.version}</version>
+                                    <version>${version.org.wildfly.galleon.s2i}</version>
                                     <inherit-packages>false</inherit-packages>
                                     <inherit-configs>false</inherit-configs>
                                 </feature-pack>
