@@ -27,31 +27,34 @@ RUN INSTALL_PKGS="tar unzip bc which lsof java-11-openjdk java-11-openjdk-devel"
     ln -sf /usr/local/apache-maven-$MAVEN_VERSION/bin/mvn /usr/local/bin/mvn && \
     mkdir -p $HOME/.m2 && \
     mkdir -p /opt/s2i/destination && \
-    curl -v -L https://github.com/jfdenise/galleon-openshift/releases/download/1.0/repository.zip > repository.zip && \
-    unzip -q repository.zip -d $HOME/.m2 && rm repository.zip
+    curl -v -L http://download-ipv4.eng.brq.redhat.com/released/JBoss-middleware/eap7/7.2.0/jboss-eap-7.2.0-maven-repository.zip > eap-repository.zip
+
+RUN unzip -q eap-repository.zip -d /tmp/ && rm eap-repository.zip
+RUN mv /tmp/jboss-eap-7.2.0.GA-maven-repository/maven-repository $HOME/.m2/repository && rm -r /tmp/jboss-eap-7.2.0.GA-maven-repository
+RUN find $HOME/.m2/repository/ \( -name "*-sources.jar" -o -name "*-sources.jar.*" \) -type f -delete
 
 # Add s2i wildfly customizations
 ADD ./contrib/settings.xml $HOME/.m2/
 
-# Install wildfly-s2i galleon-pack.
-COPY ./wildfly-s2i-galleon-pack  /tmp/wildfly-s2i-galleon-pack
-RUN mvn -f /tmp/wildfly-s2i-galleon-pack install -Dmaven.repo.local=$HOME/.m2/repository
+# Install wildfly-s2i galleon-pack. We can't until we build with galleon 4.0
+# COPY ./wildfly-s2i-galleon-pack  /tmp/wildfly-s2i-galleon-pack
+# RUN mvn -f /tmp/wildfly-s2i-galleon-pack install -Dmaven.repo.local=$HOME/.m2/repository
 
 #Provision default wildfly server
 COPY ./wildfly-s2i-server-provisioning  /tmp/wildfly-s2i-server-provisioning
 RUN mvn -f /tmp/wildfly-s2i-server-provisioning package -Dmaven.repo.local=$HOME/.m2/repository
-RUN cp -r /tmp/wildfly-s2i-server-provisioning/target/wildfly /wildfly && \
-    mkdir -p /opt/jboss && ln -s /wildfly /opt/jboss/wildfly
+RUN mkdir -p /opt/jboss && cp -r /tmp/wildfly-s2i-server-provisioning/target/wildfly /opt/jboss/eap
 
 # Copy the S2I scripts from the specific language image to $STI_SCRIPTS_PATH
 COPY ./s2i/bin/ $STI_SCRIPTS_PATH
 
+# The paths are wrong with s2i tha texpects /wildfly. All revisited when switching to EAP s2i for all.
 RUN mkdir /s2i-output && chown -R 1001:0 /s2i-output && chmod -R ug+rwX /s2i-output && \
     rm -rf /tmp/wildfly-s2i-galleon-pack && \
     rm -rf /tmp/wildfly-s2i-server-provisioning && \
-    chown -R 1001:0 /wildfly && chown -R 1001:0 $HOME && \
+    chown -R 1001:0 /opt/jboss/eap && chown -R 1001:0 $HOME && \
     chmod -R ug+rwX $HOME/.m2/repository && \
-    chmod -R ug+rwX /wildfly && \
+    chmod -R ug+rwX /opt/jboss/eap && \
     chmod -R g+rw /opt/s2i/destination
 
 USER 1001

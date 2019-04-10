@@ -19,11 +19,11 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>org.wildfly.galleon.s2i</groupId>
-    <artifactId>wildfy-server</artifactId>
+    <groupId>org.jboss.eap.galleon.s2i</groupId>
+    <artifactId>eap-server</artifactId>
     <packaging>pom</packaging>
     <version>17.0.0.Final</version>
-    <name>Provision a wildfly full server</name>
+    <name>Provision an EAP full server</name>
   
     <description>Galleon description</description>
 
@@ -36,7 +36,7 @@
     </licenses>
     
     <properties>
-        <version.org.jboss.galleon>4.0.0.Alpha1-SNAPSHOT</version.org.jboss.galleon>
+        <version.org.jboss.galleon>2.0.1.Final</version.org.jboss.galleon>
     </properties>
 
     <build>
@@ -69,11 +69,31 @@
                                 <jboss-fork-embedded>true</jboss-fork-embedded>
                             </plugin-options>
                             <feature-packs>
+                                <!-- must add transitives to set the version, we don't have a product universe -->
                                 <feature-pack>
-                                    <groupId>org.wildfly.galleon.s2i</groupId>
-                                    <artifactId>wildfly-s2i-galleon-pack</artifactId>
-                                    <version>${project.version}</version>
+                                    <transitive>true</transitive>
+                                    <groupId>org.wildfly.core</groupId>
+                                    <artifactId>wildfly-core-galleon-pack</artifactId>
+                                    <version>6.0.11.Final-redhat-00001</version>
                                 </feature-pack>
+                                <feature-pack>
+                                    <transitive>true</transitive>
+                                    <groupId>org.jboss.eap</groupId>
+                                    <artifactId>wildfly-servlet-galleon-pack</artifactId>
+                                    <version>7.2.0.GA-redhat-00005</version>
+                                </feature-pack>
+                                <feature-pack>
+                                    <!--<transitive>true</transitive>-->
+                                    <groupId>org.jboss.eap</groupId>
+                                    <artifactId>wildfly-galleon-pack</artifactId>
+                                    <version>7.2.0.GA-redhat-00005</version>
+                                </feature-pack>
+                                <!-- Can't build the feature-pack until we support 4.0 -->
+                                <!--<feature-pack>
+                                    <groupId>org.jboss.eap.galleon.s2i</groupId>
+                                    <artifactId>eap-s2i-galleon-pack</artifactId>
+                                    <version>${project.version}</version>
+                                </feature-pack>-->
                             </feature-packs>
                         </configuration>
                     </execution>
