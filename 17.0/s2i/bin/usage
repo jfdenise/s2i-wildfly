@@ -22,9 +22,30 @@ will be copied into Wildfly standalone/configuration.
 The default Maven build arguments can be overridden by setting MAVEN_ARGS via the "--env" argument to S2I
 The default Maven build arguments can be appended by setting MAVEN_ARGS_APPEND.
 
-Galleon provisioning of WildFly server:
+Galleon provisioning of WildFly server when building application src
 
-Sample invocation:
+If a maven project located in <src>/wildfly-galleon exists, the provisioning of a new WildFly server is started from this project. 
+The output of this project must be a <src>/wildfly-galleon/target/wildfly directory. This directory content is then used to replace the default WildFly server 
+present in the image.
+The default Maven build arguments can be overridden by setting GALLEON_MAVEN_ARGS via the "--env" argument to S2I
+The default Maven build arguments can be appended by setting GALLEON_MAVEN_ARGS_APPEND.
 
+Galleon provisioning of WildFly server
+
+The image can also be used to provision a server from a Galleon provisioning maven project URL. Set GALLEON_BUILD=true "--env" argument to S2I
+The output of this project must be a <src>/target/wildfly directory. This directory content is then used to replace the default WildFly server 
+present in the image.
+The default Maven build arguments can be overridden by setting MAVEN_ARGS via the "--env" argument to S2I
+The default Maven build arguments can be appended by setting MAVEN_ARGS_APPEND.
+
+For example:
 s2i build <my maven Galleon provisioning project URL> openshift/wildfly-160-centos mywildflyservertest -e GALLEON_BUILD=true
+
+Reuse of built artifacts in chained builds
+
+The build output is copied to /s2i-output/wildfly. If Galleon has been used to provision a server, this directory contains the provisioned server.
+If only app has been built, this directory contains the deployed artifacts. If app and server have been buit, the directory contains the wildfly server and
+deployed artifacts.
+
+The directory /s2i-output/wildfly can be used as input to chained builds or docker multistages builds.
 EOF
