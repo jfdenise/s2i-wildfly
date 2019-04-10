@@ -1,6 +1,6 @@
 #!/bin/bash
 export OPENSHIFT_HOSTNAME=$HOSTNAME
-     
+
 max_threads=$(ulimit -u)
 
 if ! [[ "$max_threads" =~ ^[0-9]+$ ]] ; then

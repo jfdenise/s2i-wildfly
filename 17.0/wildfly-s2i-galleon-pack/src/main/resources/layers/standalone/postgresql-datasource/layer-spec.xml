@@ -7,8 +7,7 @@
     
     <feature spec="subsystem.ee.service.default-bindings">
         <param name="datasource" value="java:jboss/datasources/${env.DEFAULT_DATASOURCE,\
-env.OPENSHIFT_DEFAULT_DATASOURCE,env.POSTGRESQL_DATASOURCE,env.OPENSHIFT_POSTGRESQL_DATASOURCE,\
-env.EXAMPLE_DATASOURCE,env.OPENSHIFT_EXAMPLE_DATASOURCE:}"/>
+env.OPENSHIFT_DEFAULT_DATASOURCE,env.POSTGRESQL_DATASOURCE,env.OPENSHIFT_POSTGRESQL_DATASOURCE:PostgreSQLDS}"/>
     </feature>
     
     <feature spec="subsystem.datasources.data-source">
