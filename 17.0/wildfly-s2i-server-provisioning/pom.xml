@@ -67,7 +67,6 @@
                             <plugin-options>
                                 <!-- required when running on JDK 11 -->
                                 <jboss-fork-embedded>true</jboss-fork-embedded>
-                                <jboss-maven-dist/>
                             </plugin-options>
                             <feature-packs>
                                 <feature-pack>

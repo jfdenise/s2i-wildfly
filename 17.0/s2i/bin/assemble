@@ -142,6 +142,18 @@ function move_artifacts() {
   done
 }
 
+function replace_wildfly() {
+  echo "Replacing WildFly server with provisioned one"
+  srcDir=$1
+  rm -rf /wildfly/.galleon
+  rm -rf /wildfly/*
+  cp -prf $srcDir/* /wildfly
+  cp -prf $srcDir/.galleon /wildfly/.galleon
+  chown -R 1001:0 /wildfly && chmod -R ug+rwX /wildfly
+  echo "Copying WildFly server to $S2I_OUTPUT_DIR"
+  cp -r $srcDir/* $S2I_OUTPUT_DIR
+}
+
 ADMIN=admin
 PASSWORD=passw0rd_
 
@@ -153,18 +165,21 @@ mkdir -p $LOCAL_SOURCE_DIR
 # artifacts (*.war, *.jar)
 ARTIFACT_DIR=${ARTIFACT_DIR:-target}
 
-S2I_OUTPUT_DIR=/s2i-output
+S2I_OUTPUT_DIR=/s2i-output/wildfly
 
 # Resulting WAR files will be deployed to /wildfly/standalone/deployments
 DEPLOY_DIR=/wildfly/standalone/deployments
 # To be able to chain builds, isolate artifacts in alternative location.
-DEPLOY_DIR_EXTERNAL=$S2I_OUTPUT_DIR/deployments
+DEPLOY_DIR_EXTERNAL=$S2I_OUTPUT_DIR/standalone/deployments
 CONFIG_DIR_EXTERNAL=$S2I_OUTPUT_DIR/standalone/configuration
 MODULE_DIR_EXTERNAL=$S2I_OUTPUT_DIR/provided_modules
 mkdir -p $DEPLOY_DIR
 mkdir -p $DEPLOY_DIR_EXTERNAL
 mkdir -p $CONFIG_DIR_EXTERNAL
 mkdir -p $MODULE_DIR_EXTERNAL
+
+# Embedded galleon description
+GALLEON_LOCAL_PROVISIONING=$LOCAL_SOURCE_DIR/wildfly-galleon
 
 # Copy the source for compilation
 cp -Rf /opt/s2i/destination/src/. $LOCAL_SOURCE_DIR
@@ -194,13 +209,19 @@ if [ -f "$LOCAL_SOURCE_DIR/pom.xml" ]; then
 
   pushd $LOCAL_SOURCE_DIR &> /dev/null
   JAVA_HOME=/etc/alternatives/java_sdk
+  GALLEON_DEFAULT_ARGS="install -DskipTests -B"
+  # When doing a Galleon build, MAVEN_ARGS are re-used.
+  # If galleon build done with app, could have a need to separate args.
   if [ ! -z "${GALLEON_BUILD}" ]; then
     if [ -z "$MAVEN_ARGS" ]; then
-        export MAVEN_ARGS="install -DskipTests -B"
+        export MAVEN_ARGS=$GALLEON_DEFAULT_ARGS
     fi
   else
     if [ -z "$MAVEN_ARGS" ]; then
         export MAVEN_ARGS="package -Popenshift -DskipTests -B"
+    fi
+    if [ -z "$GALLEON_MAVEN_ARGS" ]; then
+        export GALLEON_MAVEN_ARGS=$GALLEON_DEFAULT_ARGS
     fi
   fi
 
@@ -209,19 +230,26 @@ if [ -f "$LOCAL_SOURCE_DIR/pom.xml" ]; then
   # Can be global to image
   if [ -z "$MAVEN_SETTINGS" ]; then
     export MAVEN_ARGS="$MAVEN_ARGS -s $HOME/.m2/settings.xml"
+    export GALLEON_MAVEN_ARGS="$GALLEON_MAVEN_ARGS -s $HOME/.m2/settings.xml"
   else
     if [[ "$MAVEN_SETTINGS" = /* ]]; then
        [ ! -e "$MAVEN_SETTINGS" ] && echo "Specified settings file does not exist in the image. [$MAVEN_SETTINGS]" && exit 1
        export MAVEN_ARGS="$MAVEN_ARGS -s $MAVEN_SETTINGS"
+       export GALLEON_MAVEN_ARGS="$GALLEON_MAVEN_ARGS -s $MAVEN_SETTINGS"
     else
        [ ! -e "$LOCAL_SOURCE_DIR/$MAVEN_SETTINGS" ] && echo "Specified settings file does not exist in your source code. [$MAVEN_SETTINGS]" && exit 1
        export MAVEN_ARGS="$MAVEN_ARGS -s $LOCAL_SOURCE_DIR/$MAVEN_SETTINGS"
+       export GALLEON_MAVEN_ARGS="$GALLEON_MAVEN_ARGS -s $LOCAL_SOURCE_DIR/$MAVEN_SETTINGS"
     fi
   fi
 
   # Append user provided args
   if [ -n "$MAVEN_ARGS_APPEND" ]; then
     export MAVEN_ARGS="$MAVEN_ARGS $MAVEN_ARGS_APPEND"
+  fi
+
+  if [ -n "$GALLEON_MAVEN_ARGS_APPEND" ]; then
+    export GALLEON_MAVEN_ARGS="$GALLEON_MAVEN_ARGS $GALLEON_MAVEN_ARGS_APPEND"
   fi
 
   CONTAINER_HEAP_PERCENT=${CONTAINER_HEAP_PERCENT:-0.50}
@@ -260,10 +288,27 @@ if [ -f "$LOCAL_SOURCE_DIR/pom.xml" ]; then
     echo "Aborting due to error code $ERR from mvn package"
     exit $ERR
   fi
-  if [ ! -z "${GALLEON_BUILD}" ]; then
-    echo "Moving provisioned server to $S2I_OUTPUT_DIR directory"
-  else
-    echo "Moving built war files into $DEPLOY_DIR for later deployment..."
+
+  # Server provisioning from application project
+  if [ -z "$GALLEON_BUILD" ]; then
+     if [ -d $GALLEON_LOCAL_PROVISIONING ]; then
+       if [ -f "$GALLEON_LOCAL_PROVISIONING/pom.xml" ]; then
+         echo "Provisioning WildFly server from $GALLEON_LOCAL_PROVISIONING..."
+         mvn install $GALLEON_MAVEN_ARGS -f $GALLEON_LOCAL_PROVISIONING
+
+         ERR=$?
+         if [ $ERR -ne 0 ]; then
+           echo "Aborting due to error code $ERR from mvn install"
+           exit $ERR
+         fi
+         if [ -d $GALLEON_LOCAL_PROVISIONING/$ARTIFACT_DIR/wildfly ]; then
+           replace_wildfly $GALLEON_LOCAL_PROVISIONING/$ARTIFACT_DIR/wildfly
+         else
+           echo "Error, no wildfly server provisioned in $GALLEON_LOCAL_PROVISIONING/$ARTIFACT_DIR/wildfly"
+           exit 1
+         fi
+       fi
+    fi
   fi
   popd &> /dev/null
 else
@@ -271,12 +316,12 @@ else
   move_artifacts "." war ear rar jar
 fi
 
-if [ ! -z "${GALLEON_BUILD}" ]; then
+if [ ! -z "$GALLEON_BUILD" ]; then
    if [ -d $LOCAL_SOURCE_DIR/$ARTIFACT_DIR/wildfly ]; then
-      cp -r $LOCAL_SOURCE_DIR/$ARTIFACT_DIR/wildfly $S2I_OUTPUT_DIR/wildfly
+     replace_wildfly $LOCAL_SOURCE_DIR/$ARTIFACT_DIR/wildfly
    else
-      echo "Error, no wildfly server provisioned in $LOCAL_SOURCE_DIR/$ARTIFACT_DIR/wildfly"
-      exit 1
+     echo "Error, no wildfly server provisioned in $LOCAL_SOURCE_DIR/$ARTIFACT_DIR/wildfly"
+     exit 1
    fi
 else
     # Move built artifacts (if any!) from the target/ directory

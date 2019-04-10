@@ -26,11 +26,9 @@ RUN INSTALL_PKGS="tar unzip bc which lsof java-11-openjdk java-11-openjdk-devel"
     tar -zx -C /usr/local) && \
     ln -sf /usr/local/apache-maven-$MAVEN_VERSION/bin/mvn /usr/local/bin/mvn && \
     mkdir -p $HOME/.m2 && \
-    mkdir -p /opt/s2i/destination
-ADD ./m2-repository $HOME/.m2/repository
-
-# Copy the S2I scripts from the specific language image to $STI_SCRIPTS_PATH
-COPY ./s2i/bin/ $STI_SCRIPTS_PATH
+    mkdir -p /opt/s2i/destination && \
+    curl -v -L https://github.com/jfdenise/galleon-openshift/releases/download/1.0/repository.zip > repository.zip && \
+    unzip -q repository.zip -d $HOME/.m2 && rm repository.zip
 
 # Add s2i wildfly customizations
 ADD ./contrib/settings.xml $HOME/.m2/
@@ -39,11 +37,14 @@ ADD ./contrib/settings.xml $HOME/.m2/
 COPY ./wildfly-s2i-galleon-pack  /tmp/wildfly-s2i-galleon-pack
 RUN mvn -f /tmp/wildfly-s2i-galleon-pack install -Dmaven.repo.local=$HOME/.m2/repository
 
-#Provision default wildfly thin server
+#Provision default wildfly server
 COPY ./wildfly-s2i-server-provisioning  /tmp/wildfly-s2i-server-provisioning
 RUN mvn -f /tmp/wildfly-s2i-server-provisioning package -Dmaven.repo.local=$HOME/.m2/repository
 RUN cp -r /tmp/wildfly-s2i-server-provisioning/target/wildfly /wildfly && \
     mkdir -p /opt/jboss && ln -s /wildfly /opt/jboss/wildfly
+
+# Copy the S2I scripts from the specific language image to $STI_SCRIPTS_PATH
+COPY ./s2i/bin/ $STI_SCRIPTS_PATH
 
 RUN mkdir /s2i-output && chown -R 1001:0 /s2i-output && chmod -R ug+rwX /s2i-output && \
     rm -rf /tmp/wildfly-s2i-galleon-pack && \

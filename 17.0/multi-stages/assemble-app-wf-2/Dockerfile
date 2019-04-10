@@ -1,12 +1,8 @@
-# This image provides a base for building and running WildFly applications.
-# It builds using maven and runs the resulting artifacts on WildFly 16.0.0 Final
+# Copy the provisioned WildFly and deployment from a single build onto runtime image
 
 FROM  wildfly-runtime-dependencies-image:latest
 
-COPY --from=cloud-profile-from-s2i:latest /s2i-output/wildfly /opt/jboss/wildfly
-COPY --from=tasks-rs-app-from-s2i:latest /s2i-output/deployments/ /opt/jboss/wildfly/standalone/deployments
-COPY --from=tasks-rs-app-from-s2i:latest /s2i-output/standalone/configuration/ /opt/jboss/wildfly/standalone
-COPY --from=tasks-rs-app-from-s2i:latest /s2i-output/provided_modules /opt/jboss/wildfly/provided_modules
+COPY --from=tasks-jaxrs-from-s2i:latest /s2i-output/wildfly /opt/jboss/wildfly
 RUN chown -R 1001:0 /opt/jboss/wildfly && chmod -R ug+rwX /opt/jboss/wildfly
 USER 1001
 EXPOSE 8080 9090
