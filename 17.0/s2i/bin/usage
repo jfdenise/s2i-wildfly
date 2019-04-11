@@ -28,19 +28,13 @@ If a maven project located in <src>/wildfly-galleon exists, the provisioning of 
 The output of this project must be a <src>/wildfly-galleon/target/wildfly directory. This directory content is then used to replace the default WildFly server 
 present in the image.
 
-It is possible to provide a git URL to a galleon maven project in order to provision 
-a custom server when building the application. If the directory <src>/wildfly-galleon
-it will be replaced with the content cloned from the git repostory. Set GALLEON_GIT_URL, 
-GALLEON_GIT_CONTEXT_DIR and GALLEON_GIT_BRANCH  via the "--env" argument to S2I.
+It is possible to reference a galleon maven project contained in the image by setting GALLEON_PROVISION_SERVER via the "--env" argument to S2I.
 
 The default Maven build arguments can be overridden by setting GALLEON_MAVEN_ARGS via the "--env" argument to S2I
 The default Maven build arguments can be appended by setting GALLEON_MAVEN_ARGS_APPEND.
 
 Reuse of built artifacts in chained builds
 
-The build output is copied to /s2i-output/wildfly. If Galleon has been used to provision a server, this directory contains the provisioned server.
-If only app has been built, this directory contains the deployed artifacts. If app and server have been built, the directory contains the wildfly server and
-deployed artifacts.
-
+The build output along with the WildFly server in use is copied to /s2i-output/wildfly.
 The directory /s2i-output/wildfly can be used as input to chained builds or docker multistages builds.
 EOF
