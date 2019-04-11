@@ -35,24 +35,25 @@ ADD ./contrib/settings.xml $HOME/.m2/
 
 # Install wildfly-s2i galleon-pack.
 COPY ./wildfly-s2i-galleon-pack  /tmp/wildfly-s2i-galleon-pack
-RUN mvn -f /tmp/wildfly-s2i-galleon-pack install -Dmaven.repo.local=$HOME/.m2/repository
+RUN mvn -f /tmp/wildfly-s2i-galleon-pack install -Dmaven.repo.local=$HOME/.m2/repository && rm -r /tmp/wildfly-s2i-galleon-pack
 
-#Provision default wildfly server
-COPY ./wildfly-s2i-server-provisioning  /tmp/wildfly-s2i-server-provisioning
-RUN mvn -f /tmp/wildfly-s2i-server-provisioning package -Dmaven.repo.local=$HOME/.m2/repository
-RUN cp -r /tmp/wildfly-s2i-server-provisioning/target/wildfly /wildfly && \
+# Install galleon descriptions.
+COPY ./galleon /galleon
+
+# Provision default server
+RUN mvn -f /galleon/default package -Dmaven.repo.local=$HOME/.m2/repository
+RUN cp -r /galleon/default/target/wildfly /wildfly && rm -r /galleon/default/target && \
     mkdir -p /opt/jboss && ln -s /wildfly /opt/jboss/wildfly
 
 # Copy the S2I scripts from the specific language image to $STI_SCRIPTS_PATH
 COPY ./s2i/bin/ $STI_SCRIPTS_PATH
 
 RUN mkdir /s2i-output && chown -R 1001:0 /s2i-output && chmod -R ug+rwX /s2i-output && \
-    rm -rf /tmp/wildfly-s2i-galleon-pack && \
-    rm -rf /tmp/wildfly-s2i-server-provisioning && \
     chown -R 1001:0 /wildfly && chown -R 1001:0 $HOME && \
     chmod -R ug+rwX $HOME/.m2/repository && \
     chmod -R ug+rwX /wildfly && \
-    chmod -R g+rw /opt/s2i/destination
+    chmod -R g+rw /opt/s2i/destination && \
+    chmod -R g+rw /galleon
 
 USER 1001
 
