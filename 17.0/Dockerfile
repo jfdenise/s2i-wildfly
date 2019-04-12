@@ -9,6 +9,7 @@ EXPOSE 8080
 
 ENV WILDFLY_VERSION=17.0.0.Final \
     MAVEN_VERSION=3.5.4 \
+    JBOSS_CONTAINER_JAVA_JVM_MODULE=/opt/jboss/container/java/jvm \
     JBOSS_CONTAINER_UTIL_LOGGING_MODULE=/opt/jboss/container/util/logging \
     JBOSS_CONTAINER_MAVEN_S2I_MODULE=/opt/jboss/container/maven/s2i/ \
     JBOSS_CONTAINER_EAP_S2I_MODULE=/opt/jboss/container/eap/s2i \
@@ -34,13 +35,21 @@ RUN INSTALL_PKGS="tar unzip bc which lsof java-11-openjdk java-11-openjdk-devel"
     (curl -v https://www.apache.org/dist/maven/maven-3/$MAVEN_VERSION/binaries/apache-maven-$MAVEN_VERSION-bin.tar.gz | \
     tar -zx -C /usr/local) && \
     ln -sf /usr/local/apache-maven-$MAVEN_VERSION/bin/mvn /usr/local/bin/mvn && \
-    mkdir -p $HOME/.m2 && \
-    mkdir -p /opt/s2i/destination && \
-    curl -v -L https://github.com/jfdenise/galleon-openshift/releases/download/1.0/repository.zip > repository.zip && \
-    unzip -q repository.zip -d $HOME/.m2 && rm repository.zip
+    curl -v -L https://github.com/jfdenise/galleon-openshift/releases/download/1.0/repository.zip > repository.zip
 
 # Add s2i wildfly customizations
-ADD ./contrib/settings.xml $HOME/.m2/
+# ADD ./contrib/settings.xml $HOME/.m2/
+
+COPY ./eap-modules /tmp/eap-modules
+COPY ./configure-modules.sh /tmp/eap-modules
+RUN sh /tmp/eap-modules/configure-modules.sh
+# RUN rm -r /tmp/scripts
+# Copy the S2I scripts from the specific language image to $STI_SCRIPTS_PATH
+COPY ./s2i/usr/local/s2i $STI_SCRIPTS_PATH
+COPY ./s2i/opt /opt
+
+# At this point, the user home is all set, even its .m2 repo
+RUN unzip -q repository.zip -d $HOME/.m2 && rm repository.zip
 
 # Install wildfly-s2i galleon-pack.
 COPY ./wildfly-s2i-galleon-pack  /tmp/wildfly-s2i-galleon-pack
@@ -54,15 +63,10 @@ RUN mvn -f /galleon/default package -Dmaven.repo.local=$HOME/.m2/repository
 RUN mkdir -p /opt/jboss && cp -r /galleon/default/target/wildfly $JBOSS_HOME && rm -r /galleon/default/target && \
     ln -s $JBOSS_HOME /wildfly 
 
-# Copy the S2I scripts from the specific language image to $STI_SCRIPTS_PATH
-COPY ./eap-modules/opt /opt
-COPY ./eap-modules/usr/local/s2i $STI_SCRIPTS_PATH
-
 RUN mkdir /s2i-output && chown -R 1001:0 /s2i-output && chmod -R ug+rwX /s2i-output && \
     chown -R 1001:0 $JBOSS_HOME && chown -R 1001:0 $HOME && \
     chmod -R ug+rwX $HOME/.m2/repository && \
     chmod -R ug+rwX $JBOSS_HOME && \
-    chmod -R g+rw /opt/s2i/destination && \
     chmod -R g+rw /galleon
 
 USER 1001
