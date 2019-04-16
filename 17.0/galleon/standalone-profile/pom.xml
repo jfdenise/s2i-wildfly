@@ -18,11 +18,13 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-
-    <groupId>org.wildfly.galleon.s2i.config</groupId>
+    <parent>
+        <groupId>org.wildfly.galleon.s2i.config</groupId>
+        <artifactId>all-configs</artifactId>
+        <version>17.0.0.Final</version>
+    </parent>
     <artifactId>standalone-profile</artifactId>
     <packaging>pom</packaging>
-    <version>17.0.0.Final</version>
     <name>Provision a wildfly standalone server</name>
   
     <description>Galleon description</description>
@@ -34,21 +36,8 @@
             <distribution>repo</distribution>
         </license>
     </licenses>
-    
-    <properties>
-        <version.org.jboss.galleon>4.0.0.Alpha1-SNAPSHOT</version.org.jboss.galleon>
-    </properties>
 
     <build>
-        <pluginManagement>
-            <plugins>
-                <plugin>
-                    <groupId>org.jboss.galleon</groupId>
-                    <artifactId>galleon-maven-plugin</artifactId>
-                    <version>${version.org.jboss.galleon}</version>
-                </plugin>
-            </plugins>
-        </pluginManagement>
         <plugins>
             <plugin>
                 <groupId>org.jboss.galleon</groupId>

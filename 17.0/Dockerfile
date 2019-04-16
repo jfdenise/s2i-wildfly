@@ -53,13 +53,14 @@ RUN unzip -q repository.zip -d $HOME/.m2 && rm repository.zip
 
 # Install wildfly-s2i galleon-pack.
 COPY ./wildfly-s2i-galleon-pack  /tmp/wildfly-s2i-galleon-pack
-RUN mvn -f /tmp/wildfly-s2i-galleon-pack install -Dmaven.repo.local=$HOME/.m2/repository && rm -r /tmp/wildfly-s2i-galleon-pack
+RUN mvn -f /tmp/wildfly-s2i-galleon-pack install -Dmaven.repo.local=$HOME/.m2/repository \
+-Dcom.redhat.xpaas.repo.jbossorg --settings ~/.m2/settings.xml && rm -r /tmp/wildfly-s2i-galleon-pack
 
 # Install galleon descriptions.
 COPY ./galleon /galleon
 
 # Provision default server
-RUN mvn -f /galleon/default package -Dmaven.repo.local=$HOME/.m2/repository
+RUN mvn -f /galleon/default package -Dmaven.repo.local=$HOME/.m2/repository -Dcom.redhat.xpaas.repo.jbossorg --settings ~/.m2/settings.xml
 RUN mkdir -p /opt/jboss && cp -r /galleon/default/target/wildfly $JBOSS_HOME && rm -r /galleon/default/target && \
     ln -s $JBOSS_HOME /wildfly 
 

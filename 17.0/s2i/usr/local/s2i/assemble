@@ -8,6 +8,7 @@ source "${JBOSS_CONTAINER_MAVEN_S2I_MODULE}/maven-s2i"
 # include our overrides/extensions
 source "${JBOSS_CONTAINER_EAP_S2I_MODULE}/s2i-core-hooks"
 
+source "${JBOSS_CONTAINER_EAP_S2I_MODULE}/wildfly-s2i-core-hooks"
 source "${JBOSS_CONTAINER_EAP_S2I_MODULE}/galleon_s2i"
 
 galleon_provision_server

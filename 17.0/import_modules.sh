@@ -1,6 +1,6 @@
 #!/bin/bash
 if [ -z "$CCT_MODULE_PATH" ]; then
-  echo "No path to cct_module, set CCT_MODULES_PATH"
+  echo "No path to cct_module, set CCT_MODULE_PATH"
   exit 1
 fi
 
