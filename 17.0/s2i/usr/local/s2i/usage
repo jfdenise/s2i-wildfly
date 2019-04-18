@@ -30,8 +30,6 @@ present in the image.
 
 It is possible to reference a galleon maven project contained in the image by setting GALLEON_PROVISION_SERVER via the "--env" argument to S2I.
 
-The default Maven build arguments can be overridden by setting GALLEON_MAVEN_ARGS via the "--env" argument to S2I
-The default Maven build arguments can be appended by setting GALLEON_MAVEN_ARGS_APPEND.
 
 Reuse of built artifacts in chained builds
 

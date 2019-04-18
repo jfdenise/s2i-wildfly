@@ -34,8 +34,7 @@ RUN INSTALL_PKGS="tar unzip bc which lsof java-11-openjdk java-11-openjdk-devel"
     yum clean all -y && \
     (curl -v https://www.apache.org/dist/maven/maven-3/$MAVEN_VERSION/binaries/apache-maven-$MAVEN_VERSION-bin.tar.gz | \
     tar -zx -C /usr/local) && \
-    ln -sf /usr/local/apache-maven-$MAVEN_VERSION/bin/mvn /usr/local/bin/mvn && \
-    curl -v -L https://github.com/jfdenise/galleon-openshift/releases/download/1.0/repository.zip > repository.zip
+    ln -sf /usr/local/apache-maven-$MAVEN_VERSION/bin/mvn /usr/local/bin/mvn
 
 # Add s2i wildfly customizations
 # ADD ./contrib/settings.xml $HOME/.m2/
@@ -49,11 +48,17 @@ COPY ./s2i/usr/local/s2i $STI_SCRIPTS_PATH
 COPY ./s2i/opt /opt
 
 # At this point, the user home is all set, even its .m2 repo
-RUN unzip -q repository.zip -d $HOME/.m2 && rm repository.zip
+# We should retrieve offliner from maven.
+COPY offliner.txt offliner.txt
+RUN curl -v -L http://repo.maven.apache.org/maven2/com/redhat/red/offliner/offliner/1.6/offliner-1.6.jar > offliner.jar
+# We need 2 --url to provide the 2 URL
+# https://repository.jboss.org/nexus/content/groups/public/
+# https://repo1.maven.org/maven2/
+RUN java -jar offliner.jar --url http://192.168.1.25:8080/maven offliner.txt --dir $MAVEN_LOCAL_REPO > /dev/null
 
 # Install wildfly-s2i galleon-pack.
 COPY ./wildfly-s2i-galleon-pack  /tmp/wildfly-s2i-galleon-pack
-RUN mvn -f /tmp/wildfly-s2i-galleon-pack install -Dmaven.repo.local=$HOME/.m2/repository \
+RUN mvn -f /tmp/wildfly-s2i-galleon-pack install -Dmaven.repo.local=$MAVEN_LOCAL_REPO \
 -Dcom.redhat.xpaas.repo.jbossorg --settings ~/.m2/settings.xml && rm -r /tmp/wildfly-s2i-galleon-pack
 
 # Install galleon descriptions.
@@ -66,7 +71,7 @@ RUN mkdir -p /opt/jboss && cp -r /galleon/default/target/wildfly $JBOSS_HOME && 
 
 RUN mkdir /s2i-output && chown -R 1001:0 /s2i-output && chmod -R ug+rwX /s2i-output && \
     chown -R 1001:0 $JBOSS_HOME && chown -R 1001:0 $HOME && \
-    chmod -R ug+rwX $HOME/.m2/repository && \
+    chmod -R ug+rwX $MAVEN_LOCAL_REPO && \
     chmod -R ug+rwX $JBOSS_HOME && \
     chmod -R g+rw /galleon
 
