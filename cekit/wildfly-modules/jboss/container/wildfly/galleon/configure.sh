@@ -28,8 +28,7 @@ cp -r $JBOSS_HOME/standalone/deployments/* /deployments
 rm -rf $JBOSS_HOME/standalone/deployments
 ln -s /deployments $JBOSS_HOME/standalone/deployments
 
-mkdir /s2i-output && chown -R 1001:0 /s2i-output && chmod -R ug+rwX /s2i-output
 chown -R 1001:0 $JBOSS_HOME && chmod -R ug+rwX $JBOSS_HOME 
 chown -R 1001:0 $HOME
 chmod -R ug+rwX $MAVEN_LOCAL_REPO
-chmod -R g+rw $JBOSS_CONTAINER_WILDFLY_GALLEON_DEFINITIONS
+chmod -R ug+rw $JBOSS_CONTAINER_WILDFLY_GALLEON_DEFINITIONS

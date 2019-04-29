@@ -24,7 +24,7 @@ ports:
 modules:
       repositories:
           - name: cct_module
-            path: /Users/jfdenise/workspaces/pm/layers-branches2/demo-openshift/s2i-wildfly-jfdenise/cekit/cct_module
+            path: /Users/jfdenise/workspaces/pm/layers-branches2/demo-openshift/cct_module
           - name: wildfly-modules
             path: /Users/jfdenise/workspaces/pm/layers-branches2/demo-openshift/s2i-wildfly-jfdenise/cekit/wildfly-modules
       install:

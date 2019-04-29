@@ -13,3 +13,5 @@ chmod ug+x ${ARTIFACTS_DIR}/usr/libexec/s2i/*
 pushd ${ARTIFACTS_DIR}
 cp -pr * /
 popd
+
+mkdir $WILDFLY_S2I_OUTPUT_DIR && chown -R 1001:0 $WILDFLY_S2I_OUTPUT_DIR && chmod -R ug+rwX $WILDFLY_S2I_OUTPUT_DIR

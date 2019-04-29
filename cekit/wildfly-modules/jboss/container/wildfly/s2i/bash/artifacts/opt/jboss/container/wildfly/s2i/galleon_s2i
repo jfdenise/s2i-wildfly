@@ -50,17 +50,16 @@ function replace_wildfly() {
   srcDir=$1
   rm -rf $JBOSS_HOME/.galleon
   rm -rf $JBOSS_HOME/*
-  cp -prf $srcDir/* /wildfly
+  cp -prf $srcDir/* $JBOSS_HOME
   cp -prf $srcDir/.galleon $JBOSS_HOME/.galleon
-  cp -r $JBOSS_HOME/standalone/deployments/* /deployments
+  cp -prf $JBOSS_HOME/standalone/deployments/* /deployments
   rm -rf $JBOSS_HOME/standalone/deployments
   ln -s /deployments $JBOSS_HOME/standalone/deployments
   chown -R 1001:0 $JBOSS_HOME && chmod -R ug+rwX $JBOSS_HOME
 }
 
 function copy_server_s2i_output() {
-  S2I_OUTPUT_DIR=/s2i-output
-  mkdir -p $S2I_OUTPUT_DIR
-  echo "Copying WildFly server to $S2I_OUTPUT_DIR"
-  cp -r $JBOSS_HOME $S2I_OUTPUT_DIR/wildfly  
+  mkdir -p $WILDFLY_S2I_OUTPUT_DIR
+  echo "Copying WildFly server to $WILDFLY_S2I_OUTPUT_DIR"
+  cp -r -L $JBOSS_HOME $WILDFLY_S2I_OUTPUT_DIR/wildfly  
 }

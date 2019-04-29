@@ -8,6 +8,8 @@ envs:
   value: /opt/jboss/container/wildfly/s2i
 - name: S2I_SOURCE_DEPLOYMENTS_FILTER
   value: "*.war *.ear *.rar *.jar"
+- name: WILDFLY_S2I_OUTPUT_DIR
+  value: "/s2i-ouput"
 
 execute:
 - script: configure.sh
