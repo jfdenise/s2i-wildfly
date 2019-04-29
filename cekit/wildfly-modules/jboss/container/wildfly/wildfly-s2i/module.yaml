@@ -1,0 +1,18 @@
+schema_version: 1
+name: jboss.container.wildfly.wildfly-s2i
+version: '1.0'
+description: Module to enable s2i for wildfly image
+
+envs:
+- name: JBOSS_HOME
+  value: "/opt/jboss/wildfly"
+
+packages:
+  install:
+  - bc
+  - which 
+  - lsof
+
+modules:
+  install:
+  - name: jboss.container.wildfly.s2i.bash

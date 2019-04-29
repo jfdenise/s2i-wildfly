@@ -16,11 +16,14 @@ curl -v -L http://repo.maven.apache.org/maven2/com/redhat/red/offliner/offliner/
 java -jar /tmp/offliner.jar --url http://192.168.1.25:8080/maven $SCRIPT_DIR/offliner.txt --dir $MAVEN_LOCAL_REPO > /dev/null
 rm /tmp/offliner.jar
 
-mvn -f $SCRIPT_DIR/wildfly-s2i-galleon-pack install -Dmaven.repo.local=$MAVEN_LOCAL_REPO
+# required to have maven enabled.
+source $JBOSS_CONTAINER_MAVEN_35_MODULE/scl-enable-maven
+
+mvn -f $SCRIPT_DIR/wildfly-s2i-galleon-pack/pom.xml install -Dmaven.repo.local=$MAVEN_LOCAL_REPO
 
 DEFAULT_SERVER=standalone-profile
 
-mvn -f $JBOSS_CONTAINER_WILDFLY_GALLEON_DEFINITIONS/$DEFAULT_SERVER package -Dmaven.repo.local=$MAVEN_LOCAL_REPO -Dcom.redhat.xpaas.repo.jbossorg --settings $HOME/.m2/settings.xml
+mvn -f $JBOSS_CONTAINER_WILDFLY_GALLEON_DEFINITIONS/$DEFAULT_SERVER/pom.xml package -Dmaven.repo.local=$MAVEN_LOCAL_REPO -Dcom.redhat.xpaas.repo.jbossorg --settings $HOME/.m2/settings.xml
 
 cp -r $JBOSS_CONTAINER_WILDFLY_GALLEON_DEFINITIONS/$DEFAULT_SERVER/target/wildfly $JBOSS_HOME && rm -r $JBOSS_CONTAINER_WILDFLY_GALLEON_DEFINITIONS/$DEFAULT_SERVER/target && \
     ln -s $JBOSS_HOME /wildfly
