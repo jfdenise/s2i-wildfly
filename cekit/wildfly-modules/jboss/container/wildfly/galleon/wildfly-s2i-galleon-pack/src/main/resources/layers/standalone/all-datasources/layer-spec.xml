@@ -1,0 +1,14 @@
+<?xml version="1.0" ?>
+<layer-spec xmlns="urn:jboss:galleon:layer-spec:1.0" name="all-datasources">
+    <dependencies>
+        <layer name="mysql-datasource"/>
+        <layer name="postgresql-datasource"/>
+        <layer name="h2-database"/>
+    </dependencies>
+    <feature spec="subsystem.ee.service.default-bindings">
+        <param name="datasource" value="java:jboss/datasources/${env.DEFAULT_DATASOURCE,\
+env.OPENSHIFT_DEFAULT_DATASOURCE,env.POSTGRESQL_DATASOURCE,env.OPENSHIFT_POSTGRESQL_DATASOURCE,env.OPENSHIFT_MYSQL_DATASOURCE,\
+env.MYSQL_DATASOURCE,env.EXAMPLE_DATASOURCE,env.OPENSHIFT_EXAMPLE_DATASOURCE:ExampleDS}"/>
+    </feature>
+</layer-spec>
+

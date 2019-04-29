@@ -18,11 +18,13 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-
-    <groupId>openshift-demo</groupId>
-    <artifactId>jaxrs-server</artifactId>
+    <parent>
+        <groupId>org.wildfly.galleon.s2i.config</groupId>
+        <artifactId>all-configs</artifactId>
+        <version>17.0.0.Final</version>
+    </parent>
+    <artifactId>jaxrs</artifactId>
     <packaging>pom</packaging>
-    <version>1.0</version>
     <name>Provision a wildfly jaxrs server</name>
   
     <description>Feature-packs for WildFly image</description>
@@ -35,22 +37,7 @@
         </license>
     </licenses>
     
-    <properties>
-        <version.org.wildfly>17.0.0.Beta1-SNAPSHOT</version.org.wildfly>
-        <version.org.wildfly.galleon.s2i>17.0.0.Final</version.org.wildfly.galleon.s2i>
-        <version.org.jboss.galleon>4.0.0.Alpha1</version.org.jboss.galleon>
-    </properties>
-    
     <build>
-        <pluginManagement>
-            <plugins>
-                <plugin>
-                    <groupId>org.jboss.galleon</groupId>
-                    <artifactId>galleon-maven-plugin</artifactId>
-                    <version>${version.org.jboss.galleon}</version>
-                </plugin>
-            </plugins>
-        </pluginManagement>
         <plugins>
             <plugin>
                 <groupId>org.jboss.galleon</groupId>
@@ -96,7 +83,7 @@
                                 <feature-pack>
                                     <groupId>org.wildfly.galleon.s2i</groupId>
                                     <artifactId>wildfly-s2i-galleon-pack</artifactId>
-                                    <version>${version.org.wildfly.galleon.s2i}</version>
+                                    <version>${project.version}</version>
                                     <inherit-packages>false</inherit-packages>
                                     <inherit-configs>false</inherit-configs>
                                 </feature-pack>

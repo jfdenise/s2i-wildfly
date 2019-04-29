@@ -1,0 +1,12 @@
+schema_version: 1
+name: jboss.container.wildfly.galleon
+version: '1.0'
+description: Galleon support.
+
+envs:
+- name: JBOSS_CONTAINER_WILDFLY_GALLEON_DEFINITIONS
+  value: /opt/jboss/container/wildfly/galleon/definitions
+
+execute:
+- script: configure.sh
+

@@ -1,0 +1,8 @@
+<?xml version="1.0" ?>
+<config xmlns="urn:jboss:galleon:config:1.0" name="standalone.xml" model="standalone">
+    <layers>
+        <!-- due to bug in depencey to transactions, keep cloud-profile -->
+        <include name="cloud-profile"/>
+        <include name="postgresql-datasource"/>
+    </layers>
+</config>

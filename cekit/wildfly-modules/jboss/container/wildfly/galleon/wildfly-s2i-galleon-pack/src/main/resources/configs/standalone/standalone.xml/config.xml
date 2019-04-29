@@ -1,0 +1,19 @@
+<?xml version="1.0" ?>
+
+<config xmlns="urn:jboss:galleon:config:1.0" name="standalone.xml" model="standalone">
+    <layers>
+        <include name="all-datasources"/>
+        <include name="deployment-scanner"/>
+        <!-- we should already have all required in default config -->
+        <exclude name="operator-required"/>
+    </layers>
+    <feature-group name="ee-s2i"/>
+    <exclude feature-id="subsystem.datasources.data-source:data-source=ExampleDS"/>
+    <feature spec="socket-binding-group">
+        <param name="socket-binding-group" value="standard-sockets" />
+        <feature spec="socket-binding-group.remote-destination-outbound-socket-binding">
+            <param name="remote-destination-outbound-socket-binding" value="mail-smtp"/>
+            <param name="host" value="${env.OPENSHIFT_SMTP_HOST:localhost}"/>
+        </feature>
+    </feature>
+</config>
