@@ -23,11 +23,11 @@
         <artifactId>all-configs</artifactId>
         <version>17.0.0.Final</version>
     </parent>
-    <artifactId>jaxrs</artifactId>
+    <artifactId>cloud-profile-mysql</artifactId>
     <packaging>pom</packaging>
-    <name>Provision a Wildfly jaxrs server</name>
+    <name>Provision a Wildfly cloud-profile + enabled h2 datasource</name>
   
-    <description>Provision a Wildfly jaxrs server</description>
+    <description>Provision a Wildfly cloud-profile + enabled h2 datasource</description>
 
     <licenses>
         <license>
@@ -36,7 +36,7 @@
             <distribution>repo</distribution>
         </license>
     </licenses>
-    
+
     <build>
         <plugins>
             <plugin>
@@ -44,7 +44,7 @@
                 <artifactId>galleon-maven-plugin</artifactId>
                 <executions>
                     <execution>
-                        <id>wildfly-provisioning-jaxrs</id>
+                        <id>wildfly-provisioning-cloud-profile-mysql</id>
                         <goals>
                             <goal>provision</goal>
                         </goals>

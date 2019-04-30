@@ -23,9 +23,9 @@
     <artifactId>all-configs</artifactId>
     <packaging>pom</packaging>
     <version>17.0.0.Final</version>
-    <name>Galleon configs</name>
+    <name>WildFly Galleon definitions</name>
   
-    <description>Feature-packs for WildFly image</description>
+    <description>WildFly Galleon definitions</description>
 
     <licenses>
         <license>

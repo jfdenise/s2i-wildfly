@@ -25,9 +25,9 @@
     </parent>
     <artifactId>cloud-profile</artifactId>
     <packaging>pom</packaging>
-    <name>Provision a wildfly cloud-profile server</name>
+    <name>Provision a Wildfly cloud-profile server</name>
   
-    <description>Feature-packs for WildFly image</description>
+    <description>Provision a Wildfly cloud-profile server</description>
 
     <licenses>
         <license>
@@ -56,34 +56,15 @@
                             <plugin-options>
                                 <!-- required when running on JDK 11 -->
                                 <jboss-fork-embedded>true</jboss-fork-embedded>
+                                <optional-packages>passive+</optional-packages>
                             </plugin-options>
                             <feature-packs>
                                 <feature-pack>
-                                    <groupId>org.wildfly</groupId>
-                                    <artifactId>wildfly-galleon-pack</artifactId>
-                                    <version>17.0.0.Beta1-SNAPSHOT</version>
-                                    <inherit-packages>true</inherit-packages>
+                                    <groupId>org.wildfly.galleon.s2i</groupId>
+                                    <artifactId>wildfly-s2i-galleon-pack</artifactId>
+                                    <version>${project.version}</version>
+                                    <inherit-packages>false</inherit-packages>
                                     <inherit-configs>false</inherit-configs>
-                                    <included-configs>
-                                        <configuration-id>
-                                            <name>standalone.xml</name>
-                                            <model>standalone</model>
-                                        </configuration-id>
-                                    </included-configs>
-                                </feature-pack>
-                                <feature-pack>
-                                    <groupId>org.wildfly.galleon.s2i</groupId>
-                                    <artifactId>wildfly-s2i-drivers-galleon-pack</artifactId>
-                                    <version>${project.version}</version>
-                                    <inherit-packages>false</inherit-packages>
-                                    <inherit-configs>true</inherit-configs>
-                                </feature-pack>
-                                <feature-pack>
-                                    <groupId>org.wildfly.galleon.s2i</groupId>
-                                    <artifactId>wildfly-s2i-foo</artifactId>
-                                    <version>${project.version}</version>
-                                    <inherit-packages>false</inherit-packages>
-                                    <inherit-configs>true</inherit-configs>
                                 </feature-pack>
                             </feature-packs>
                             <customConfig>config.xml</customConfig>

@@ -1,3 +1,5 @@
+6821eaacd2484234850f7f7b563a270356437c30f32d3e3714734bc5ae329d5f,org/wildfly/galleon/ds/wildfly-ds-galleon-pack/1.0-SNAPSHOT/wildfly-ds-galleon-pack-1.0-SNAPSHOT.pom
+b99c786ace2ab75b1c073f36f4196720fe53c027395d0d8d753499f0147093f7,org/wildfly/galleon/ds/wildfly-ds-galleon-pack/1.0-SNAPSHOT/wildfly-ds-galleon-pack-1.0-SNAPSHOT.zip
 88fbda4b912596b9f56e8e12e580cc954bacfb51776ecfddd3e18fc1cf56dc4c,antlr/antlr/2.7.7/antlr-2.7.7.jar
 100f793ba27f8b4e4204edb46171ebf36e54e0f94cfc02527fea07a0bb1fceb7,antlr/antlr/2.7.7/antlr-2.7.7.pom
 b7a110770766cd2742eba4ee894713b17e69262841f8aeea8b3d1a666fb7d260,ch/qos/cal10n/cal10n-api/0.8.1/cal10n-api-0.8.1.jar

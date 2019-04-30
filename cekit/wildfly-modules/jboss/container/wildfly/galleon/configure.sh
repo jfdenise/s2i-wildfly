@@ -21,7 +21,7 @@ source $JBOSS_CONTAINER_MAVEN_35_MODULE/scl-enable-maven
 
 mvn -f $SCRIPT_DIR/wildfly-s2i-galleon-pack/pom.xml install -Dmaven.repo.local=$MAVEN_LOCAL_REPO
 
-DEFAULT_SERVER=standalone-profile
+DEFAULT_SERVER=os-standalone-profile
 
 mvn -f $JBOSS_CONTAINER_WILDFLY_GALLEON_DEFINITIONS/$DEFAULT_SERVER/pom.xml package -Dmaven.repo.local=$MAVEN_LOCAL_REPO -Dcom.redhat.xpaas.repo.jbossorg --settings $HOME/.m2/settings.xml
 

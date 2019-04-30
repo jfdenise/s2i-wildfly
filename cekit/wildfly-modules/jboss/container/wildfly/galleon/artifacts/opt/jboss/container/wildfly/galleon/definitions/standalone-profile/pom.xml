@@ -25,9 +25,9 @@
     </parent>
     <artifactId>standalone-profile</artifactId>
     <packaging>pom</packaging>
-    <name>Provision a wildfly standalone server</name>
+    <name>Provision a Wildfly standalone server</name>
   
-    <description>Galleon description</description>
+    <description>Provision a Wildfly standalone server</description>
 
     <licenses>
         <license>
@@ -59,9 +59,11 @@
                             </plugin-options>
                             <feature-packs>
                                 <feature-pack>
-                                    <groupId>org.wildfly.galleon.s2i</groupId>
-                                    <artifactId>wildfly-s2i-galleon-pack</artifactId>
-                                    <version>${project.version}</version>
+                                    <transitive>true</transitive>
+                                    <groupId>org.wildfly</groupId>
+                                    <artifactId>wildfly-galleon-pack</artifactId>
+                                    <version>${version.org.wildfly}</version>
+                                    <inherit-packages>true</inherit-packages>
                                     <inherit-configs>false</inherit-configs>
                                     <included-configs>
                                         <configuration-id>
@@ -69,6 +71,12 @@
                                             <model>standalone</model>
                                         </configuration-id>
                                     </included-configs>
+                                </feature-pack>
+                                <feature-pack>
+                                    <groupId>org.wildfly.galleon.s2i</groupId>
+                                    <artifactId>wildfly-s2i-galleon-pack</artifactId>
+                                    <version>${project.version}</version>
+                                    <inherit-configs>false</inherit-configs>
                                 </feature-pack>
                             </feature-packs>
                         </configuration>
