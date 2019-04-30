@@ -40,6 +40,10 @@
         <version.org.wildfly.galleon-plugins>4.0.0.Alpha4</version.org.wildfly.galleon-plugins>
         <version.org.jboss.galleon>4.0.0.Alpha1</version.org.jboss.galleon>
     </properties>
+    <modules>
+        <module>definitions</module>
+        <module>wildfly-s2i-galleon-pack</module>
+    </modules>
     <build>
         <pluginManagement>
             <plugins>

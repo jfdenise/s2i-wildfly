@@ -24,7 +24,6 @@
         <version>17.0.0.Final</version>
     </parent>
     <artifactId>wildfly-s2i-galleon-pack</artifactId>
-    <version>17.0.0.Final</version>
     <packaging>pom</packaging>
     <name>WildFly Galleon feature-pack for OpenShift</name>
   

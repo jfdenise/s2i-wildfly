@@ -25,7 +25,6 @@
     </parent>
     <artifactId>all-configs</artifactId>
     <packaging>pom</packaging>
-    <version>17.0.0.Final</version>
     <name>WildFly Galleon definitions</name>
   
     <description>WildFly Galleon definitions</description>
@@ -37,5 +36,16 @@
             <distribution>repo</distribution>
         </license>
     </licenses>
+    
+    <modules>
+        <module>cloud-profile</module>
+        <module>cloud-profile-h2</module>
+        <module>cloud-profile-mysql</module>
+        <module>cloud-profile-postgresql</module>
+        <module>full-profile</module>
+        <module>jaxrs</module>
+        <module>os-standalone-profile</module>
+        <module>standalone-profile</module>
+    </modules>
     
 </project>

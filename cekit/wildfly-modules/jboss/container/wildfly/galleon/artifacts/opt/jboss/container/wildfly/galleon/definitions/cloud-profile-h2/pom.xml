@@ -23,7 +23,7 @@
         <artifactId>all-configs</artifactId>
         <version>17.0.0.Final</version>
     </parent>
-    <artifactId>cloud-profile-mysql</artifactId>
+    <artifactId>cloud-profile-h2</artifactId>
     <packaging>pom</packaging>
     <name>Provision a Wildfly cloud-profile + enabled h2 datasource</name>
   
