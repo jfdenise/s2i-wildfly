@@ -21,17 +21,22 @@ parameters:
   description: The application git repository
   displayName: git repository
   required: true
-  value: https://github.com/jorgemoralespou/s2i-wildfly-galleon
+  value: https://github.com/jfdenise/s2i-wildfly
 - name: GIT_CONTEXT_DIR
   description: The application git repository sub directory
   displayName: git repository sub directory
   required: false
-  value: test/test-app-jaxrs
+  value: 17.0/test/test-app-jaxrs
 - name: GIT_BRANCH
   description: The application git branch
   displayName: git branch
   required: true
-  value: master
+  value: eap-s2i
+- name: GALLEON_SERVER
+  description: A builtin Galleon description to provision a custom server
+  displayName: Builtin Galleon description name
+  required: false
+  value:
 objects:
 - apiVersion: image.openshift.io/v1
   kind: ImageStream
@@ -61,7 +66,10 @@ objects:
       sourceStrategy:
         from:
           kind: ImageStreamTag
-          name: galleon-wildfly-builder:latest
+          name: wildfly-openshift:latest
+        env:
+          - name: "GALLEON_PROVISION_SERVER"
+            value: ${GALLEON_SERVER}
       type: Source
     triggers:
     - imageChange:
