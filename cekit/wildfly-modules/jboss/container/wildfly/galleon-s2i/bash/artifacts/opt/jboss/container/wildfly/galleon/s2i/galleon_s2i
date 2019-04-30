@@ -57,9 +57,3 @@ function replace_wildfly() {
   ln -s /deployments $JBOSS_HOME/standalone/deployments
   chown -R 1001:0 $JBOSS_HOME && chmod -R ug+rwX $JBOSS_HOME
 }
-
-function copy_server_s2i_output() {
-  mkdir -p $WILDFLY_S2I_OUTPUT_DIR
-  echo "Copying WildFly server to $WILDFLY_S2I_OUTPUT_DIR"
-  cp -r -L $JBOSS_HOME $WILDFLY_S2I_OUTPUT_DIR/wildfly  
-}

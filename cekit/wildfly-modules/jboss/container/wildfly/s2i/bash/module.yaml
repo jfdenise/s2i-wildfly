@@ -10,8 +10,6 @@ envs:
   value: "*.war *.ear *.rar *.jar"
 - name: WILDFLY_S2I_OUTPUT_DIR
   value: "/s2i-ouput"
-- name: MAVEN_LOCAL_REPO
-  value: "$HOME/.m2/repository"
 
 execute:
 - script: configure.sh
@@ -20,3 +18,4 @@ modules:
   install:
   - name: jboss.container.maven.s2i.bash
   - name: jboss.container.util.logging.bash
+  - name: jboss.container.wildfly.galleon-s2i.bash

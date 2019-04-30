@@ -1,10 +1,10 @@
 schema_version: 1
 name: jboss.container.wildfly.galleon
 version: '1.0'
-description: Galleon support.
+description: Galleon descriptions and Wildfly s2i feature-pack construction.
 
 envs:
-- name: JBOSS_CONTAINER_WILDFLY_GALLEON
+- name: JBOSS_CONTAINER_WILDFLY_GALLEON_MODULE
   value: /opt/jboss/container/wildfly/galleon
 - name: JBOSS_CONTAINER_WILDFLY_GALLEON_DEFINITIONS
   value: /opt/jboss/container/wildfly/galleon/definitions
@@ -12,3 +12,6 @@ envs:
 execute:
 - script: configure.sh
 
+modules:
+  install:
+  - name: jboss.container.maven.default.bash
