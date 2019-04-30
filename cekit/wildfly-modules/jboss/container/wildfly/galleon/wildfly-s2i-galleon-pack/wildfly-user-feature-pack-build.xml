@@ -42,7 +42,4 @@
             <default-configs inherit="false"/>
         </dependency>
     </dependencies>
-    <default-packages>
-        <package name="wildfly.s2i.common"/>
-    </default-packages>
 </build>

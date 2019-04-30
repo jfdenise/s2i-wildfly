@@ -20,7 +20,7 @@ envs:
       description: If set to true, ensures that the bash scripts are executed with the -x option, printing the commands and their arguments as they are executed.
       example: "true"
 ports:
-    - value: 8443
+    - value: 8080
 modules:
       repositories:
           - name: cct_module
@@ -35,4 +35,6 @@ modules:
 run:
       user: 1001
       cmd:
+          - "sh"
+          - "-c"
           - "$STI_SCRIPTS_PATH/usage"
