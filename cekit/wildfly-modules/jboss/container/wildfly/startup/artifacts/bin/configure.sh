@@ -1,11 +1,16 @@
 #!/bin/bash
 DIRNAME=`dirname "$0"`
-export CLI_CONFIG_CONTENT=""
-if [ -f $DIRNAME/configure/mysql.sh ]; then
- . $DIRNAME/configure/mysql.sh
+if [ ! -f $DIRNAME/jboss-cli.sh ]; then
+    echo CLI not installed, runtime scripts will be not applied, returning
+    return 0
 fi
-if [ -f $DIRNAME/configure/postgresql.sh ]; then
- . $DIRNAME/configure/postgresql.sh
+
+export CLI_CONFIG_CONTENT=""
+if [ -f $DIRNAME/launch/mysql.sh ]; then
+ . $DIRNAME/launch/mysql.sh
+fi
+if [ -f $DIRNAME/launch/postgresql.sh ]; then
+ . $DIRNAME/launch/postgresql.sh
 fi
 if [ ! -z "$CLI_CONFIG_CONTENT" ]; then
 echo Applying custom configuration [$CLI_CONFIG_CONTENT]

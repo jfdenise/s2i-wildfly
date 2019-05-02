@@ -67,15 +67,12 @@ if [ -n "$JAVA_OPTS_EXT" ]; then
     JAVA_OPTS="$JAVA_OPTS $JAVA_OPTS_EXT"
 fi
 
-# Why hard coded to /wildfly/modules, replaced by $JBOSS_HOME?
-export JBOSS_MODULEPATH=$JBOSS_HOME/provided_modules
+export JBOSS_MODULEPATH=$JBOSS_HOME/modules
 
 if [ ! -z $OPENSHIFT_WILDFLY_MODULE_PATH ]; then
    export JBOSS_MODULEPATH=$JBOSS_MODULEPATH:$OPENSHIFT_WILDFLY_MODULE_PATH
 fi
 
-# Why hard coded to /wildfly/modules, replaced by $JBOSS_HOME?
-export JBOSS_MODULEPATH=$JBOSS_MODULEPATH:$JBOSS_HOME/modules
 export JAVA_OPTS
 
 

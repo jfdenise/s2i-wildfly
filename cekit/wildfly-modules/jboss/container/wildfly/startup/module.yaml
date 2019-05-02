@@ -1,0 +1,7 @@
+schema_version: 1
+name: jboss.container.wildfly.startup
+version: '1.0'
+description: Install server startup scripts.
+
+execute:
+- script: configure.sh
