@@ -11,6 +11,10 @@ envs:
 - name: WILDFLY_S2I_OUTPUT_DIR
   value: "/s2i-ouput"
 
+labels:
+- name: io.openshift.s2i.scripts-url
+  value: image:///usr/libexec/s2i
+
 execute:
 - script: configure.sh
 

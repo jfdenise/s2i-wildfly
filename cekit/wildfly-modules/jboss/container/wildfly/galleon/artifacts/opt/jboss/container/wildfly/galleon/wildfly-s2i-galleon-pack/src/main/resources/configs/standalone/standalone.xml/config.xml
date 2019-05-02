@@ -49,10 +49,4 @@ env.MYSQL_DATASOURCE,env.EXAMPLE_DATASOURCE,env.OPENSHIFT_EXAMPLE_DATASOURCE:Exa
             <param name="host" value="${env.OPENSHIFT_SMTP_HOST:localhost}"/>
         </feature>
     </feature>
-    
-    <!-- runtime scripts -->
-    <packages>
-        <package name="wildfly.s2i.postgresql.datasource"/>
-        <package name="wildfly.s2i.mysql.datasource"/>
-    </packages>
 </config>
