@@ -7,5 +7,7 @@
     <layers>
         <!-- required by operator to be monitored -->
         <include name="operator-required"/>
+        <!-- required for termination and script execution -->
+        <include name="core-tools"/>
     </layers>
 </config>

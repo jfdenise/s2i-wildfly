@@ -1,7 +1,12 @@
 #!/bin/sh
 
-# mysql db container must be linked w/ alias "mysql"
-if [ ! -n "$MYSQL_DATABASE" ]
-then
-  export CLI_CONFIG_CONTENT=$CLI_CONFIG_CONTENT"/subsystem=datasources/data-source=MySQLDS:write-attribute(name=enabled,value=false)"$'\n'
-fi
+function configure() {
+ if [ ! -n "$MYSQL_DATABASE" ]
+ then
+  cat <<'EOF' >> ${CLI_SCRIPT_FILE}
+      if (outcome == success) of /subsystem=datasources/data-source=MySQLDS:read-resource
+        /subsystem=datasources/data-source=MySQLDS:write-attribute(name=enabled,value=false)
+      end-if
+EOF
+ fi
+}
