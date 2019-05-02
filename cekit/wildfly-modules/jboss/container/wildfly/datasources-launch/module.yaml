@@ -1,5 +1,5 @@
 schema_version: 1
-name: jboss.container.wildfly.datasources
+name: jboss.container.wildfly.datasources-launch
 version: '1.0'
 description: Install datasources scripts
 

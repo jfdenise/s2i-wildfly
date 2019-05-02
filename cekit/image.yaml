@@ -32,7 +32,7 @@ modules:
             version: "11"
           - name: jboss.container.wildfly.base
           # Modules that add runtime scripts to WildFly
-          - name: jboss.container.wildfly.datasources
+          - name: jboss.container.wildfly.datasources-launch
           - name: jboss.container.wildfly.os-wildfly-launch
           - name: jboss.container.wildfly.startup
           - name: jboss.container.wildfly.s2i.bash
