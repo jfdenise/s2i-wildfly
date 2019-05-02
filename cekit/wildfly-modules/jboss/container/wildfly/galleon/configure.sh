@@ -20,7 +20,9 @@ rm /tmp/offliner.jar
 source $JBOSS_CONTAINER_MAVEN_35_MODULE/scl-enable-maven
 
 # Build WildFly s2i feature-pack and install it in local maven repository
-mvn -f $JBOSS_CONTAINER_WILDFLY_GALLEON_MODULE/wildfly-s2i-galleon-pack/pom.xml install -Dmaven.repo.local=$MAVEN_LOCAL_REPO
+# The active profiles are jboss-community-repository and securecentral
+mvn -f $JBOSS_CONTAINER_WILDFLY_GALLEON_MODULE/wildfly-s2i-galleon-pack/pom.xml install \
+-Dcom.redhat.xpaas.repo.jbossorg --settings $HOME/.m2/settings.xml -Dmaven.repo.local=$MAVEN_LOCAL_REPO
 
 # Remove the feature-pack src
 rm -rf $JBOSS_CONTAINER_WILDFLY_GALLEON_MODULE/wildfly-s2i-galleon-pack

@@ -7,7 +7,10 @@ source $JBOSS_CONTAINER_MAVEN_35_MODULE/scl-enable-maven
 
 # Provision the default server
 DEFAULT_SERVER=os-standalone-profile
-mvn -f $JBOSS_CONTAINER_WILDFLY_GALLEON_DEFINITIONS/$DEFAULT_SERVER/pom.xml package -Dmaven.repo.local=$MAVEN_LOCAL_REPO -Dcom.redhat.xpaas.repo.jbossorg --settings $HOME/.m2/settings.xml
+
+# The active profiles are jboss-community-repository and securecentral
+mvn -f $JBOSS_CONTAINER_WILDFLY_GALLEON_DEFINITIONS/$DEFAULT_SERVER/pom.xml package -Dmaven.repo.local=$MAVEN_LOCAL_REPO \
+-Dcom.redhat.xpaas.repo.jbossorg --settings $HOME/.m2/settings.xml
 
 # Install WildFly server
 rm -rf $JBOSS_HOME
