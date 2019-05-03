@@ -12,7 +12,7 @@ rm /tmp/offliner.jar
 source $JBOSS_CONTAINER_MAVEN_35_MODULE/scl-enable-maven
 
 # Copy JBOSS_HOME content (custom os content) to common package dir
-cp -r $JBOSS_HOME/* $JBOSS_CONTAINER_WILDFLY_GALLEON_MODULE/wildfly-s2i-galleon-pack/src/main/resources/packages/wildfly.s2i.common/content
+cp -r $JBOSS_HOME/* $JBOSS_CONTAINER_WILDFLY_GALLEON_FP_PACKAGES/wildfly.s2i.common/content
 rm -rf $JBOSS_HOME/*
 
 # Build WildFly s2i feature-pack and install it in local maven repository

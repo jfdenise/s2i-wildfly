@@ -7,7 +7,7 @@ ARTIFACTS_DIR=${SCRIPT_DIR}/artifacts
 
 chown -R 1001:0 $SCRIPT_DIR
 chmod -R ug+rwX $SCRIPT_DIR
-chmod ug+x ${ARTIFACTS_DIR}/opt/jboss/container/wildfly/galleon/s2i/*
+chmod ug+x ${ARTIFACTS_DIR}/opt/jboss/container/wildfly/s2i/galleon/*
 pushd ${ARTIFACTS_DIR}
 cp -pr * /
 popd

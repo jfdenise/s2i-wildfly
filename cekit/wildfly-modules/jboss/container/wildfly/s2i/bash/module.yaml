@@ -22,4 +22,4 @@ modules:
   install:
   - name: jboss.container.maven.s2i.bash
   - name: jboss.container.util.logging.bash
-  - name: jboss.container.wildfly.galleon-s2i.bash
+  - name: jboss.container.wildfly.s2i-galleon.bash

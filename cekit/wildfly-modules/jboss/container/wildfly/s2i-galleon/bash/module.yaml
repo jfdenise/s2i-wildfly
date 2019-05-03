@@ -1,11 +1,11 @@
 schema_version: 1
-name: jboss.container.wildfly.galleon-s2i.bash
+name: jboss.container.wildfly.s2i-galleon.bash
 version: '1.0'
 description: s2i Galleon integration.
 
 envs:
-- name: JBOSS_CONTAINER_WILDFLY_GALLEON_S2I_MODULE
-  value: /opt/jboss/container/wildfly/galleon/s2i
+- name: JBOSS_CONTAINER_WILDFLY_S2I_GALLEON_MODULE
+  value: /opt/jboss/container/wildfly/s2i/galleon
 
 execute:
 - script: configure.sh
