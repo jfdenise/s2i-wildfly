@@ -10,3 +10,7 @@ envs:
 
 execute:
 - script: configure.sh
+
+modules:
+  install:
+  - name: jboss.container.wildfly.cli-launch

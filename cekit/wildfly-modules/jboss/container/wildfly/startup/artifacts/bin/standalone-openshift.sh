@@ -11,7 +11,7 @@ function clean_shutdown() {
 }
 
 
-log_info "Running $JBOSS_IMAGE_NAME image, version $JBOSS_IMAGE_VERSION"
+log_info "Running $IMAGE_NAME image, version $IMAGE_VERSION"
 
 trap "clean_shutdown" TERM
 trap "clean_shutdown" INT

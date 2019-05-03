@@ -12,6 +12,5 @@ execute:
 
 modules:
   install:
-  - name: jboss.container.wildfly.galleon
   - name: jboss.container.maven.default.bash
 

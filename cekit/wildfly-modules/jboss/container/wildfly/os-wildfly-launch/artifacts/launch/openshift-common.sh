@@ -11,8 +11,14 @@ LOGGING_FILE=$JBOSS_HOME/standalone/configuration/logging.properties
 
 CONFIGURE_SCRIPTS=(
   # TODO $JBOSS_HOME/bin/launch/datasource.sh
-  $JBOSS_HOME/bin/launch/mysql.sh
-  $JBOSS_HOME/bin/launch/postgresql.sh
   # TODO, add some more scripts.
   /opt/run-java/proxy-options
 )
+
+if [ -x $JBOSS_HOME/bin/launch/mysql.sh ]; then
+    CONFIGURE_SCRIPTS+=($JBOSS_HOME/bin/launch/mysql.sh)
+fi
+
+if [ -x $JBOSS_HOME/bin/launch/postgresql.sh ]; then
+    CONFIGURE_SCRIPTS+=($JBOSS_HOME/bin/launch/postgresql.sh)
+fi
