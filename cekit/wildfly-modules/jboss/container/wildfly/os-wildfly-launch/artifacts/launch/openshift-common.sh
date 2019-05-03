@@ -14,14 +14,14 @@ CONFIGURE_SCRIPTS=(
   # TODO, add some more scripts.
 )
 
-if [ -x /opt/run-java/proxy-options ]; then
+if [ -f /opt/run-java/proxy-options ]; then
     CONFIGURE_SCRIPTS+=(/opt/run-java/proxy-options)
 fi
 
-if [ -x $JBOSS_HOME/bin/launch/mysql.sh ]; then
+if [ -f $JBOSS_HOME/bin/launch/mysql.sh ]; then
     CONFIGURE_SCRIPTS+=($JBOSS_HOME/bin/launch/mysql.sh)
 fi
 
-if [ -x $JBOSS_HOME/bin/launch/postgresql.sh ]; then
+if [ -f $JBOSS_HOME/bin/launch/postgresql.sh ]; then
     CONFIGURE_SCRIPTS+=($JBOSS_HOME/bin/launch/postgresql.sh)
 fi

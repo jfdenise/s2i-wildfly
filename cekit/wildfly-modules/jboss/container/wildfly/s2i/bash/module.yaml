@@ -9,7 +9,7 @@ envs:
 - name: S2I_SOURCE_DEPLOYMENTS_FILTER
   value: "*.war *.ear *.rar *.jar"
 - name: WILDFLY_S2I_OUTPUT_DIR
-  value: "/s2i-ouput"
+  value: "/s2i-output"
 
 labels:
 - name: io.openshift.s2i.scripts-url
