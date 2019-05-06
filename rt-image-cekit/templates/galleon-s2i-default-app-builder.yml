@@ -1,0 +1,83 @@
+apiVersion: v1
+kind: Template
+metadata:
+  name: default-wildfly-galleon-s2i-app-builder
+  annotations:
+    iconClass: icon-wildfly
+    openshift.io/display-name: WildFly S2I default builder
+    openshift.io/provider-display-name: Red Hat, Inc.
+    template.openshift.io/long-description: Build an application image running with Widlfy runtime.
+    description: Build an application image running with Widlfy runtime. Optionaly provision a WildFly server.
+  message: Builds created.
+labels:
+  template: default-wildfly-galleon-s2i-app-builder
+parameters:
+- name: APP_NAME
+  description: The application name. Name is assigned to all of the application objects defined in this template
+  displayName: Image Name
+  required: true
+  value: my-app
+- name: GIT_REPO
+  description: The application git repository
+  displayName: git repository
+  required: true
+  value: https://github.com/jfdenise/s2i-wildfly
+- name: GIT_CONTEXT_DIR
+  description: The application git repository sub directory
+  displayName: git repository sub directory
+  required: false
+  value: 17.0/test/test-app-jaxrs
+- name: GIT_BRANCH
+  description: The application git branch
+  displayName: git branch
+  required: true
+  value: eap-s2i
+- name: GALLEON_SERVER
+  description: A builtin Galleon description to provision a custom server
+  displayName: Builtin Galleon description name
+  required: false
+  value:
+objects:
+- apiVersion: image.openshift.io/v1
+  kind: ImageStream
+  metadata:
+    labels:
+      app: ${APP_NAME}
+    name: ${APP_NAME}
+- apiVersion: build.openshift.io/v1
+  kind: BuildConfig
+  metadata:
+    labels:
+      app: ${APP_NAME}
+    name: ${APP_NAME}
+  spec:
+    output:
+      to:
+        kind: ImageStreamTag
+        name: ${APP_NAME}:latest
+    runPolicy: Serial
+    source:
+      git:
+        ref: ${GIT_BRANCH}
+        uri: ${GIT_REPO}
+      contextDir: ${GIT_CONTEXT_DIR}
+      type: Git
+    strategy:
+      sourceStrategy:
+        from:
+          kind: ImageStreamTag
+          name: wildfly-openshift:latest
+        env:
+          - name: "GALLEON_PROVISION_SERVER"
+            value: ${GALLEON_SERVER}
+      type: Source
+    triggers:
+    - imageChange:
+      type: ImageChange
+    - type: ConfigChange
+    - generic:
+        secret: secret101
+      type: Generic
+    - github:
+      secret: secret101
+    type: GitHub
