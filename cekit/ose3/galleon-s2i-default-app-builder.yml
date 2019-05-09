@@ -26,7 +26,7 @@ parameters:
   description: The application git repository sub directory
   displayName: git repository sub directory
   required: false
-  value: 17.0/test/test-app-jaxrs
+  value: cekit/test/test-app-jaxrs
 - name: GIT_BRANCH
   description: The application git branch
   displayName: git branch
@@ -66,7 +66,7 @@ objects:
       sourceStrategy:
         from:
           kind: ImageStreamTag
-          name: wildfly-openshift:latest
+          name: wildfly-170-centos7:latest
         env:
           - name: "GALLEON_PROVISION_SERVER"
             value: ${GALLEON_SERVER}

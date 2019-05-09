@@ -5,13 +5,14 @@ SCRIPT_DIR=$(dirname $0)
 
 # Download offliner runtime
 curl -v -L http://repo.maven.apache.org/maven2/com/redhat/red/offliner/offliner/1.6/offliner-1.6.jar > /tmp/offliner.jar
-java -jar /tmp/offliner.jar --url http://192.168.1.25:8080/maven $SCRIPT_DIR/offliner.txt --dir $MAVEN_LOCAL_REPO > /dev/null
+java -jar /tmp/offliner.jar --url http://192.168.1.2:8080/maven $SCRIPT_DIR/offliner.txt --dir $MAVEN_LOCAL_REPO > /dev/null
 rm /tmp/offliner.jar
 
 # required to have maven enabled.
 source $JBOSS_CONTAINER_MAVEN_35_MODULE/scl-enable-maven
 
 # Copy JBOSS_HOME content (custom os content) to common package dir
+mkdir -p $JBOSS_CONTAINER_WILDFLY_GALLEON_FP_PACKAGES/wildfly.s2i.common/content
 cp -r $JBOSS_HOME/* $JBOSS_CONTAINER_WILDFLY_GALLEON_FP_PACKAGES/wildfly.s2i.common/content
 rm -rf $JBOSS_HOME/*
 

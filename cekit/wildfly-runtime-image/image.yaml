@@ -1,6 +1,6 @@
 schema_version: 1
 
-name: "wildfly/wildfly-openshift-runtime"
+name: "openshift/wildfly-runtime-170-centos7"
 description: "The wildfly runtime image"
 version: "17.0"
 from: "centos:7"
