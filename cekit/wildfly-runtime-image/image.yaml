@@ -16,7 +16,7 @@ envs:
       description: If set to true, ensures that the bash scripts are executed with the -x option, printing the commands and their arguments as they are executed.
       example: "true"
     - name: IMAGE_NAME
-      value: "wildfly/wildfly-openshift-runtime"
+      value: "openshift/wildfly-runtime-170-centos7"
     - name: IMAGE_VERSION
       value: "17.0"
     - name: SERVER_CONFIGURATION

@@ -21,8 +21,11 @@ if [ -n "$CLI_GRACEFUL_SHUTDOWN" ] ; then
   log_info "Using CLI Graceful Shutdown instead of TERM signal"
 fi
 
+PUBLIC_IP_ADDRESS=${WILDFLY_PUBLIC_BIND_ADDRESS:-0.0.0.0}
+MANAGEMENT_IP_ADDRESS=${WILDFLY_MANAGEMENT_BIND_ADDRESS:-0.0.0.0}
+ENABLE_STATISTICS=${WILDFLY_ENABLE_STATISTICS:-true}
 
-$JBOSS_HOME/bin/standalone.sh -c $SERVER_CONFIGURATION -b 0.0.0.0 -bmanagement 0.0.0.0 -Dwildfly.statistics-enabled=true &
+$JBOSS_HOME/bin/standalone.sh -c $SERVER_CONFIGURATION -b ${PUBLIC_IP_ADDRESS} -bmanagement ${MANAGEMENT_IP_ADDRESS} -Dwildfly.statistics-enabled=${ENABLE_STATISTICS} &
 
 PID=$!
 wait $PID 2>/dev/null
