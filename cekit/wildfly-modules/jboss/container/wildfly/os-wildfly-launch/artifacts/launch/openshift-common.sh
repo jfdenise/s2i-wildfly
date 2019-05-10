@@ -10,7 +10,6 @@ CONFIG_FILE=$JBOSS_HOME/standalone/configuration/${SERVER_CONFIGURATION}
 LOGGING_FILE=$JBOSS_HOME/standalone/configuration/logging.properties
 
 CONFIGURE_SCRIPTS=(
-  # TODO $JBOSS_HOME/bin/launch/datasource.sh
   # TODO, add some more scripts.
 )
 
@@ -24,4 +23,8 @@ fi
 
 if [ -f $JBOSS_HOME/bin/launch/postgresql.sh ]; then
     CONFIGURE_SCRIPTS+=($JBOSS_HOME/bin/launch/postgresql.sh)
+fi
+
+if [ -f $JBOSS_HOME/bin/launch/datasource.sh ]; then
+    CONFIGURE_SCRIPTS+=($JBOSS_HOME/bin/launch/datasource.sh)
 fi

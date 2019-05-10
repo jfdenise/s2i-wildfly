@@ -42,6 +42,7 @@ modules:
           - name: jboss.container.wildfly.s2i.bash
           # Modules that add runtime scripts to JBOSS_HOME or as custom galleon package
           - name: jboss.container.wildfly.datasources-launch
+          - name: jboss.container.wildfly.dyn-datasources-launch
           - name: jboss.container.wildfly.os-wildfly-launch
           - name: jboss.container.wildfly.startup
           # At this point, all scripts must have been added to JBOSS_HOME and to custom galleon packages location

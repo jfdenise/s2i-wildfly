@@ -12,7 +12,7 @@
     <!-- Example DS -->
     <exclude feature-id="subsystem.datasources.data-source:data-source=ExampleDS"/>
     <feature spec="subsystem.datasources.data-source">
-        <param name="data-source" value="${env.EXAMPLE_DATASOURCE,env.OPENSHIFT_EXAMPLE_DATASOURCE:ExampleDS}"/>
+        <param name="data-source" value="ExampleDS"/>
         <param name="enabled" value="true"/>
         <param name="use-java-context" value="true"/>
         <param name="jndi-name" value="java:jboss/datasources/${env.EXAMPLE_DATASOURCE,env.OPENSHIFT_EXAMPLE_DATASOURCE:ExampleDS}"/>
