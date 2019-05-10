@@ -1,9 +1,0 @@
-<?xml version="1.0" ?>
-<layer-spec xmlns="urn:jboss:galleon:layer-spec:1.0" name="deployment-scanner">
-    <feature spec="subsystem.deployment-scanner">
-        <feature spec="subsystem.deployment-scanner.scanner">
-            <param name="scanner" value="default"/>
-            <param name="auto-deploy-exploded" value="${env.AUTO_DEPLOY_EXPLODED,env.OPENSHIFT_AUTO_DEPLOY_EXPLODED:false}"/>
-        </feature>
-    </feature>
-</layer-spec>

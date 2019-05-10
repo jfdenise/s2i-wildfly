@@ -1,7 +1,0 @@
-<?xml version="1.0" ?>
-
-<package-spec xmlns="urn:jboss:galleon:package:2.0" name="wildfly.s2i.postgresql.datasource">
-    <dependencies>
-        <package name="wildfly.s2i.common"/>
-    </dependencies>
-</package-spec>

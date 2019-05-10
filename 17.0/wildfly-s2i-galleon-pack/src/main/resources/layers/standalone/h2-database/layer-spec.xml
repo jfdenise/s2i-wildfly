@@ -1,5 +1,0 @@
-<?xml version="1.0" ?>
-<layer-spec xmlns="urn:jboss:galleon:layer-spec:1.0" name="h2-database">
-    <exclude feature-id="subsystem.datasources.data-source:data-source=ExampleDS"/>
-    <feature-group name="datasource-s2i"/>
-</layer-spec>
