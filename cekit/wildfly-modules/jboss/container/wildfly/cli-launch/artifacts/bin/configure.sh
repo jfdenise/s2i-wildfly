@@ -3,7 +3,7 @@
 
 source ${JBOSS_HOME}/bin/launch/openshift-common.sh
 source $JBOSS_HOME/bin/launch/logging.sh
-
+SERVER_CONFIG=${WILDFLY_SERVER_CONFIGURATION:-standalone.xml}
 function exec_cli_scripts() {
   if [ -s "${CLI_SCRIPT_FILE}" ]; then
     #Check we are able to use the jboss-cli.sh
@@ -14,7 +14,7 @@ function exec_cli_scripts() {
 
     systime=$(date +%s)
     CLI_SCRIPT_FILE_FOR_EMBEDDED=/tmp/cli-configuration-script-${systime}.cli
-    echo "embed-server --timeout=30 --server-config=${SERVER_CONFIGURATION} --std-out=discard" > ${CLI_SCRIPT_FILE_FOR_EMBEDDED}
+    echo "embed-server --timeout=30 --server-config=${SERVER_CONFIG} --std-out=discard" > ${CLI_SCRIPT_FILE_FOR_EMBEDDED}
     cat ${CLI_SCRIPT_FILE} >> ${CLI_SCRIPT_FILE_FOR_EMBEDDED}
     echo "" >> ${CLI_SCRIPT_FILE_FOR_EMBEDDED}
     echo "stop-embedded-server" >> ${CLI_SCRIPT_FILE_FOR_EMBEDDED}

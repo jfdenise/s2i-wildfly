@@ -2,10 +2,6 @@ schema_version: 1
 name: jboss.container.wildfly.os-wildfly
 version: '1.0'
 description: Provision WildFly default server
-
-envs:
-- name: SERVER_CONFIGURATION
-  value: standalone.xml
   
 execute:
 - script: configure.sh

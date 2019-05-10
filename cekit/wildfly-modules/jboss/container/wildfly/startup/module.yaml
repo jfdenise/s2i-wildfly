@@ -16,7 +16,9 @@ envs:
 - name: "WILDFLY_ENABLE_STATISTICS"
   example: "false"
   description: "By default WildFly enables statistics, use this env variable to enable/disable statistics."
-
+- name: WILDFLY_SERVER_CONFIGURATION
+  example: "my-standalone.xml"
+  description: "By default, standalone.xml file is used, use this env variable to set to another configuration file."
 execute:
 - script: configure.sh
 

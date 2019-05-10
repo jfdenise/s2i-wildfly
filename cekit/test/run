@@ -93,7 +93,7 @@ run_test_usage() {
 }
 
 test_connection() {
-  local max_attempts=10
+  local max_attempts=20
   local sleep_time=1
   local attempt=1
   local result=1

@@ -19,8 +19,6 @@ envs:
       value: "openshift/wildfly-runtime-170-centos7"
     - name: IMAGE_VERSION
       value: "17.0"
-    - name: SERVER_CONFIGURATION
-      value: "standalone.xml"
     - name: JBOSS_HOME
       value: /opt/jboss/wildfly
 
