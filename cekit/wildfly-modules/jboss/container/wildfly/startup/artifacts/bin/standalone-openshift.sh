@@ -3,6 +3,11 @@
 
 source $JBOSS_HOME/bin/launch/logging.sh
 
+# Run modules that can update ENV var
+source ${JBOSS_HOME}/bin/launch/openshift-env-modules.sh
+source $JBOSS_HOME/bin/launch/configure-modules.sh
+configureEnvModules
+
 # TERM signal handler
 function clean_shutdown() {
   log_error "*** WildFly wrapper process ($$) received TERM signal ***"

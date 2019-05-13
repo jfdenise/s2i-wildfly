@@ -1,7 +1,7 @@
 #!/bin/sh
 # Openshift WildFly runtime configuration update
 
-source ${JBOSS_HOME}/bin/launch/openshift-common.sh
+source ${JBOSS_HOME}/bin/launch/openshift-cli-modules.sh
 source $JBOSS_HOME/bin/launch/logging.sh
 SERVER_CONFIG=${WILDFLY_SERVER_CONFIGURATION:-standalone.xml}
 function exec_cli_scripts() {
@@ -53,7 +53,10 @@ CLI_SCRIPT_PROPERTY_FILE=/tmp/cli-script-property-${systime}.cli
 
 echo "error_file=${CLI_SCRIPT_ERROR_FILE}" > ${CLI_SCRIPT_PROPERTY_FILE}
 
-source $JBOSS_HOME/bin/configure-modules.sh
+source $JBOSS_HOME/bin/launch/configure-modules.sh
+
+configureCliModules
+
 exec_cli_scripts
 
 if [ "${SCRIPT_DEBUG}" = "true" ] ; then

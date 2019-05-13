@@ -9,5 +9,6 @@
         <include name="operator-required"/>
         <!-- required for termination and script execution -->
         <include name="core-tools"/>
+        <include name="jolokia"/>
     </layers>
 </config>

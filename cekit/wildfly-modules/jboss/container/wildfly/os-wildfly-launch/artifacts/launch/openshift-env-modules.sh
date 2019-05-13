@@ -10,22 +10,13 @@ SERVER_CONFIG=${WILDFLY_SERVER_CONFIGURATION:-standalone.xml}
 CONFIG_FILE=$JBOSS_HOME/standalone/configuration/${SERVER_CONFIG}
 LOGGING_FILE=$JBOSS_HOME/standalone/configuration/logging.properties
 
-CONFIGURE_SCRIPTS=(
-  # TODO, add some more scripts.
+CONFIGURE_ENV_SCRIPTS=(
 )
 
 if [ -f /opt/run-java/proxy-options ]; then
-    CONFIGURE_SCRIPTS+=(/opt/run-java/proxy-options)
+    CONFIGURE_ENV_SCRIPTS+=(/opt/run-java/proxy-options)
 fi
 
-if [ -f $JBOSS_HOME/bin/launch/mysql.sh ]; then
-    CONFIGURE_SCRIPTS+=($JBOSS_HOME/bin/launch/mysql.sh)
-fi
-
-if [ -f $JBOSS_HOME/bin/launch/postgresql.sh ]; then
-    CONFIGURE_SCRIPTS+=($JBOSS_HOME/bin/launch/postgresql.sh)
-fi
-
-if [ -f $JBOSS_HOME/bin/launch/datasource.sh ]; then
-    CONFIGURE_SCRIPTS+=($JBOSS_HOME/bin/launch/datasource.sh)
+if [ -f $JBOSS_HOME/bin/launch/jboss_modules_system_pkgs.sh ]; then
+    CONFIGURE_ENV_SCRIPTS+=($JBOSS_HOME/bin/launch/jboss_modules_system_pkgs.sh)
 fi

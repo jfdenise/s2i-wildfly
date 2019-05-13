@@ -3,6 +3,12 @@ name: jboss.container.wildfly.os-wildfly-launch
 version: '1.0'
 description: openshift-common script
 
+envs:
+- name: "JBOSS_MODULES_SYSTEM_PKGS_APPEND"
+  example: "org.jboss.byteman"
+  description: "Comma-separated list of package names that will be appended to the JBOSS_MODULES_SYSTEM_PKGS environment variable."
+- name: "JBOSS_MODULES_SYSTEM_PKGS"
+  value: "org.jboss.logmanager,jdk.nashorn.api"
 
 execute:
 - script: configure.sh

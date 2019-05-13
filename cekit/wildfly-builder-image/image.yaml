@@ -41,6 +41,7 @@ modules:
           # s2i dependens on galleon module that installs descriptions and feature-pack sources for modules to add content to dedicated packages
           - name: jboss.container.wildfly.s2i.bash
           # Modules that add runtime scripts to JBOSS_HOME or as custom galleon package
+          - name: jboss.container.wildfly.jolokia
           - name: jboss.container.wildfly.datasources-launch
           - name: jboss.container.wildfly.dyn-datasources-launch
           - name: jboss.container.wildfly.os-wildfly-launch
