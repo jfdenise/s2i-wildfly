@@ -219,8 +219,11 @@ function generate_datasource_common() {
     if [ -n "$DB_POOL" ]; then
       pool_name="$DB_POOL"
     fi
-
-    ds=$(generate_default_datasource)
+    # do not generate default example DS, possibly not supported.
+    #To be revisited when we have a proper way to disable it.
+    # ds=$(generate_default_datasource)
+    echo ""
+    return
   fi
 
   if [ -z "$service_name" ]; then
