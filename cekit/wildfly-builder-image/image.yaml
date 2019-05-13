@@ -10,7 +10,7 @@ labels:
     - name: io.k8s.display-name
       value: "WildFly 17.0.0.Final"
     - name: io.openshift.expose-services
-      value: "8080:http"
+      value: "8080:http,8778:jolokia"
     - name: io.openshift.tags
       value: "builder,wildfly,wildfly17"
     - name: maintainer
