@@ -1,7 +1,7 @@
 schema_version: 1
-name: jboss.container.wildfly.os-wildfly
+name: jboss.container.wildfly.galleon-build-fp
 version: '1.0'
-description: Provision WildFly default server
+description: Populate user maven repository and build galleon FP.
 
 execute:
 - script: configure.sh
@@ -9,4 +9,3 @@ execute:
 modules:
   install:
   - name: jboss.container.maven.default.bash
-

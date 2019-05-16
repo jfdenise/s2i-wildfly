@@ -47,6 +47,7 @@ modules:
           - name: jboss.container.wildfly.os-wildfly-launch
           - name: jboss.container.wildfly.startup
           # At this point, all scripts must have been added to JBOSS_HOME and to custom galleon packages location
+          - name: jboss.container.wildfly.galleon-build-fp
           - name: jboss.container.wildfly.os-wildfly
           
 run:

@@ -14,7 +14,3 @@ envs:
 
 execute:
 - script: configure.sh
-
-modules:
-  install:
-  - name: jboss.container.maven.default.bash
