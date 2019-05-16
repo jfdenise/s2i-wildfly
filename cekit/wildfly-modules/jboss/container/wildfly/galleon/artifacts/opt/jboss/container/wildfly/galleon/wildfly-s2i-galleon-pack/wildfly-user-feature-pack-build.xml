@@ -36,8 +36,8 @@
             <packages inherit="true"/>
             <default-configs inherit="true"/>
         </dependency>
-        <dependency group-id="org.wildfly.galleon.ds" artifact-id="wildfly-ds-galleon-pack">
-            <name>org.wildfly.galleon.ds:wildfly-ds-galleon-pack</name>
+        <dependency group-id="org.wildfly" artifact-id="wildfly-datasources-galleon-pack">
+            <name>org.wildfly:wildfly-datasources-galleon-pack</name>
             <packages inherit="false"/>
             <default-configs inherit="false"/>
         </dependency>

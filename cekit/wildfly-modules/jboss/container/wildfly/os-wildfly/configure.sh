@@ -5,8 +5,15 @@ SCRIPT_DIR=$(dirname $0)
 
 # Download offliner runtime
 curl -v -L http://repo.maven.apache.org/maven2/com/redhat/red/offliner/offliner/1.6/offliner-1.6.jar > /tmp/offliner.jar
-java -jar /tmp/offliner.jar --url http://192.168.1.2:8080/maven $SCRIPT_DIR/offliner.txt --dir $MAVEN_LOCAL_REPO > /dev/null
-rm /tmp/offliner.jar
+
+# Download offliner file
+curl -v -L https://repository.jboss.org/nexus/content/groups/public/org/wildfly/wildfly-dist/${WILDFLY_VERSION}/wildfly-dist-${WILDFLY_VERSION}-artifact-list.txt > /tmp/offliner.txt
+
+# Populate maven repo
+java -jar /tmp/offliner.jar --url https://repo1.maven.org/maven2/ --url https://repository.jboss.org/nexus/content/groups/public/ \
+/tmp/offliner.txt --dir $MAVEN_LOCAL_REPO > /dev/null
+
+rm /tmp/offliner.jar && rm /tmp/offliner.txt
 
 # required to have maven enabled.
 source $JBOSS_CONTAINER_MAVEN_35_MODULE/scl-enable-maven

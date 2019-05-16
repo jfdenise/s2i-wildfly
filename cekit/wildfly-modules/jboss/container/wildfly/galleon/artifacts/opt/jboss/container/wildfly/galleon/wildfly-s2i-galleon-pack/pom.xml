@@ -45,8 +45,8 @@
             <type>zip</type>
         </dependency>
         <dependency>
-            <groupId>org.wildfly.galleon.ds</groupId>
-            <artifactId>wildfly-ds-galleon-pack</artifactId>
+            <groupId>org.wildfly</groupId>
+            <artifactId>wildfly-datasources-galleon-pack</artifactId>
             <version>${version.org.wildfly.galleon.ds}</version>
             <type>zip</type>
         </dependency>
