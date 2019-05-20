@@ -3,7 +3,7 @@
 
 source ${JBOSS_HOME}/bin/launch/openshift-cli-modules.sh
 source $JBOSS_HOME/bin/launch/logging.sh
-SERVER_CONFIG=${WILDFLY_SERVER_CONFIGURATION:-standalone.xml}
+
 function exec_cli_scripts() {
   if [ -s "${CLI_SCRIPT_FILE}" ]; then
     #Check we are able to use the jboss-cli.sh
