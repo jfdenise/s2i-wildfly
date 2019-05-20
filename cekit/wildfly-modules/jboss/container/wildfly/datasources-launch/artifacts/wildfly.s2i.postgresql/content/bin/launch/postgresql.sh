@@ -1,6 +1,13 @@
 #!/bin/sh
 
 function configure() {
+ local configureMode=$(getConfigurationMode)
+ if [ "${configureMode}" = "cli" ]; then
+  configureByCli
+ fi
+}
+
+function configureByCli() {
  if [ -n "$POSTGRESQL_DATABASE" ]
  then
   cat <<'EOF' >> ${CLI_SCRIPT_FILE}
