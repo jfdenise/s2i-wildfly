@@ -44,6 +44,7 @@ modules:
           - name: jboss.container.wildfly.jolokia
           - name: jboss.container.wildfly.datasources-launch
           - name: jboss.container.wildfly.dyn-datasources-launch
+          - name: jboss.container.wildfly.launch-common
           - name: jboss.container.wildfly.os-wildfly-launch
           - name: jboss.container.wildfly.startup
           # At this point, all scripts must have been added to JBOSS_HOME and to custom galleon packages location

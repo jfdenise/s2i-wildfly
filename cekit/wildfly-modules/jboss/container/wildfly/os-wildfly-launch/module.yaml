@@ -1,7 +1,7 @@
 schema_version: 1
 name: jboss.container.wildfly.os-wildfly-launch
 version: '1.0'
-description: openshift-common script
+description: wildfly launch scripts
 
 envs:
 - name: "JBOSS_MODULES_SYSTEM_PKGS_APPEND"
