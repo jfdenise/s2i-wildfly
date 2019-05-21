@@ -1,16 +1,16 @@
 apiVersion: v1
 kind: Template
 metadata:
-  name: wildfly-s2i-template
+  name: wildfly-s2i-chained-build-template
   annotations:
     iconClass: icon-wildfly
-    openshift.io/display-name: WildFly s2i application build and chained build
+    openshift.io/display-name: WildFly s2i chained build
     openshift.io/provider-display-name: Red Hat, Inc.
-    template.openshift.io/long-description: WildFly s2i application build and chained build.
-    description: WildFly s2i application build and chained build.
+    template.openshift.io/long-description: S2I build of WildFly application (<app-name>-build-artifacts image) followed by a build to create a lightweight application image (<app-name> image). <app-name> image can then be managed by the WildFly Operator.
+    description: S2I build of WildFly application (<app-name>-build-artifacts image) followed by a build to create a lightweight application image (<app-name> image). <app-name> image can then be managed by the WildFly Operator.
   message: Builds created.
 labels:
-  template: wildfly-s2i-template
+  template: wildfly-s2i-chained-build-template
 parameters:
 - name: APP_NAME
   description: The application name. Name is assigned to all of the application objects defined in this template.

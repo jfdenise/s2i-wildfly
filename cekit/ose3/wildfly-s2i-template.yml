@@ -1,16 +1,16 @@
 apiVersion: v1
 kind: Template
 metadata:
-  name: default-wildfly-galleon-s2i-app-builder
+  name: wildfly-s2i-template
   annotations:
     iconClass: icon-wildfly
-    openshift.io/display-name: WildFly S2I default builder
+    openshift.io/display-name: WildFly S2I builder
     openshift.io/provider-display-name: Red Hat, Inc.
     template.openshift.io/long-description: Build an application image running with Widlfy runtime.
     description: Build an application image running with Widlfy runtime. Optionaly provision a WildFly server.
-  message: Builds created.
+  message: Build created.
 labels:
-  template: default-wildfly-galleon-s2i-app-builder
+  template: wildfly-s2i-template
 parameters:
 - name: APP_NAME
   description: The application name. Name is assigned to all of the application objects defined in this template
@@ -113,6 +113,9 @@ objects:
           ports:
           - containerPort: 8080
             protocol: TCP
+          - containerPort: 8778
+            protocol: TCP
+            name: jolokia
           resources: {}
           terminationMessagePath: /dev/termination-log
           livenessProbe:
